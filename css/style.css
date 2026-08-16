@@ -1077,7 +1077,42 @@ button {
   }
 
   .navbar {
-    padding: 1rem 0;
+    padding: 0.85rem 0;
+  }
+
+  .nav-container {
+    width: 92%;
+    gap: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo-brand {
+    font-size: 1.45rem;
+    gap: 0.5rem;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .logo-img {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+  }
+
+  .nav-right-actions {
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .nav-action-icons {
+    gap: 0.35rem;
+  }
+
+  .nav-icon-btn {
+    width: 34px;
+    height: 34px;
   }
 
   .navbar .btn-gold {
@@ -1224,31 +1259,70 @@ button {
   background: #6b635c;
 }
 
-/* Floorplan Grid */
-.floorplan-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+/* Floorplan Blueprint Architectural Layout */
+.floorplan-roastery-map {
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
   margin-bottom: 2rem;
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  border-radius: 18px;
+  padding: 1.75rem;
+  background: rgba(14, 11, 9, 0.65);
+  position: relative;
+}
+
+.floorplan-level-banner {
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px dashed rgba(212, 175, 55, 0.3);
+  border-radius: 12px;
+  padding: 0.65rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.floorplan-main-floor {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1.1fr;
+  gap: 1.25rem;
+}
+
+.floorplan-entrance-bar {
+  background: rgba(255, 255, 255, 0.03);
+  border-top: 2px dashed rgba(217, 119, 54, 0.4);
+  border-radius: 0 0 14px 14px;
+  padding: 0.85rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--accent-gold);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .floorplan-zone-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 14px;
-  padding: 1.5rem;
+  padding: 1.35rem;
   display: flex;
   flex-direction: column;
   transition: var(--transition);
+  position: relative;
 }
 
 .floorplan-zone-card:hover {
-  border-color: rgba(217, 119, 54, 0.3);
-  background: rgba(255, 255, 255, 0.035);
+  border-color: rgba(217, 119, 54, 0.35);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .zone-header {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.1rem;
 }
 
 .zone-tag {
@@ -1256,79 +1330,87 @@ button {
   font-weight: 800;
   color: var(--accent-terracotta);
   letter-spacing: 0.1em;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.2rem;
 }
 
 .zone-header h4 {
   font-family: var(--font-heading);
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   color: #fff;
   font-weight: 700;
 }
 
 .zone-sub {
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   color: var(--text-muted-dark);
 }
 
 .zone-tables-row {
   display: flex;
-  gap: 0.85rem;
+  gap: 0.75rem;
   flex-wrap: wrap;
 }
 
 .zone-tables-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.85rem;
+  gap: 0.75rem;
 }
 
-/* Interactive Table Button */
+/* Interactive Table Visual Shapes */
 .sim-table-btn {
   flex: 1;
-  min-width: 75px;
-  background: #171310;
-  border: 1px solid rgba(200, 157, 86, 0.3);
-  border-radius: 10px;
-  padding: 0.85rem 0.6rem;
+  min-width: 72px;
+  background: #181412;
+  border: 1px solid rgba(200, 157, 86, 0.35);
+  border-radius: 12px;
+  padding: 0.9rem 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.3rem;
+  gap: 0.35rem;
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
   color: #fff;
   text-align: center;
+  position: relative;
+}
+
+/* Visual Table Shape Icons */
+.table-visual-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+  margin-bottom: 2px;
 }
 
 .sim-table-btn .table-num {
   font-family: var(--font-heading);
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: #fff;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
 }
 
 .sim-table-btn .table-pax {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--accent-gold);
-  background: rgba(200, 157, 86, 0.1);
+  background: rgba(200, 157, 86, 0.12);
   padding: 0.15rem 0.45rem;
   border-radius: 20px;
 }
 
 .sim-table-btn:hover:not(.occupied) {
-  transform: translateY(-4px) scale(1.03);
+  transform: translateY(-4px) scale(1.04);
   border-color: var(--accent-gold);
-  background: #231c18;
-  box-shadow: 0 8px 20px rgba(200, 157, 86, 0.25);
+  background: #241d18;
+  box-shadow: 0 8px 22px rgba(200, 157, 86, 0.3);
 }
 
 .sim-table-btn.selected {
   border-color: var(--accent-terracotta);
-  background: linear-gradient(145deg, #2b1d16, #1d1410);
-  box-shadow: 0 0 25px rgba(217, 119, 54, 0.45);
+  background: linear-gradient(145deg, #2f1d14, #1d130d);
+  box-shadow: 0 0 25px rgba(217, 119, 54, 0.5);
   transform: translateY(-4px) scale(1.05);
 }
 
@@ -1344,7 +1426,7 @@ button {
 .sim-table-btn.occupied {
   background: #141110;
   border-color: rgba(255, 255, 255, 0.05);
-  opacity: 0.55;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
@@ -1355,6 +1437,13 @@ button {
 .sim-table-btn.occupied .table-pax {
   color: #888;
   background: rgba(255, 255, 255, 0.04);
+}
+
+@media (max-width: 900px) {
+  .floorplan-main-floor {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 }
 
 /* VIP Table Style */

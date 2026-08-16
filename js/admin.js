@@ -132,27 +132,36 @@ function handleStaffLogin(user, pass) {
   }
 }
 
-/* Staff Logout */
+/* Staff Logout with Custom Modal */
 function handleStaffLogout() {
-  if (confirm('Apakah Anda yakin ingin keluar (logout) dari sesi staf admin?')) {
-    sessionStorage.removeItem(AUTH_STORAGE_KEY);
-    localStorage.removeItem(AUTH_STORAGE_KEY);
-    
-    const authGate = document.getElementById('authGate');
-    const adminLayout = document.getElementById('adminLayout');
-    const loginPass = document.getElementById('loginPass');
-    const errorEl = document.getElementById('authErrorMsg');
-
-    if (errorEl) errorEl.style.display = 'none';
-    if (loginPass) loginPass.value = '';
-    if (adminLayout) adminLayout.style.display = 'none';
-    if (authGate) {
-      authGate.style.display = 'flex';
-      authGate.style.animation = 'fadeIn 0.3s ease';
-    }
-
-    showToast('Sesi staf telah ditutup.');
+  const logoutModal = document.getElementById('customLogoutModal');
+  if (logoutModal) {
+    logoutModal.classList.add('show');
+  } else {
+    executeLogout();
   }
+}
+
+function executeLogout() {
+  sessionStorage.removeItem(AUTH_STORAGE_KEY);
+  localStorage.removeItem(AUTH_STORAGE_KEY);
+  
+  const authGate = document.getElementById('authGate');
+  const adminLayout = document.getElementById('adminLayout');
+  const loginPass = document.getElementById('loginPass');
+  const errorEl = document.getElementById('authErrorMsg');
+  const logoutModal = document.getElementById('customLogoutModal');
+
+  if (logoutModal) logoutModal.classList.remove('show');
+  if (errorEl) errorEl.style.display = 'none';
+  if (loginPass) loginPass.value = '';
+  if (adminLayout) adminLayout.style.display = 'none';
+  if (authGate) {
+    authGate.style.display = 'flex';
+    authGate.style.animation = 'fadeIn 0.3s ease';
+  }
+
+  showToast('Sesi staf telah berhasil keluar.');
 }
 
 /* Initialize Local Storage */
@@ -605,14 +614,22 @@ function initEventListeners() {
     });
   }
 
-  // Logout Buttons (Sidebar and Topbar)
+  // Logout Controls
   const sidebarLogoutBtn = document.getElementById('sidebarLogoutBtn');
-  const topbarLogoutBtn = document.getElementById('topbarLogoutBtn');
+  const cancelLogoutBtn = document.getElementById('cancelLogoutBtn');
+  const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
+  const logoutModal = document.getElementById('customLogoutModal');
+
   if (sidebarLogoutBtn) {
     sidebarLogoutBtn.addEventListener('click', handleStaffLogout);
   }
-  if (topbarLogoutBtn) {
-    topbarLogoutBtn.addEventListener('click', handleStaffLogout);
+  if (cancelLogoutBtn && logoutModal) {
+    cancelLogoutBtn.addEventListener('click', () => {
+      logoutModal.classList.remove('show');
+    });
+  }
+  if (confirmLogoutBtn) {
+    confirmLogoutBtn.addEventListener('click', executeLogout);
   }
 }
 

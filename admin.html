@@ -136,23 +136,19 @@
             <svg viewBox="0 0 24 24"><path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"/></svg>
           </button>
           <div class="topbar-title">
-            <h1>Manajemen Reservasi Meja</h1>
-            <p>Terracotta Coffee Roastery Bandung (Braga)</p>
+            <h1>Manajemen Reservasi</h1>
+            <p>Terracotta Roastery Braga</p>
           </div>
         </div>
 
         <div class="topbar-right">
-          <button class="btn-admin btn-admin-outline" id="exportCsvBtn" title="Download data reservasi format CSV">
+          <button class="btn-admin btn-admin-outline" id="exportCsvBtn" title="Download data format CSV">
             <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24"><path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/></svg>
-            Export CSV
+            <span class="btn-text-export">Export CSV</span>
           </button>
           <button class="btn-admin btn-admin-gold" id="openAddWalkInBtn">
             <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24"><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg>
-            + Tambah Walk-In
-          </button>
-          <button class="btn-admin btn-admin-danger" id="topbarLogoutBtn" title="Keluar dari Sesi Staf">
-            <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24"><path d="M16,17V14H9V10H16V7L21,12L16,17M14,2A2,2 0 0,1 16,4V6H14V4H5V20H14V18H16V20A2,2 0 0,1 14,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2H14Z"/></svg>
-            Logout
+            <span>+ Walk-In</span>
           </button>
         </div>
       </header>
@@ -364,60 +360,144 @@
         <button class="modal-close-btn" aria-label="Tutup">&times;</button>
       </div>
       <div class="modal-body">
-        <div class="floorplan-grid" style="margin-bottom: 0;">
+        <div class="floorplan-roastery-map" style="margin-bottom: 0;">
           
-          <div class="floorplan-zone-card">
-            <div class="zone-header">
-              <div class="zone-tag">ZONA 01</div>
-              <h4>☕ Espresso Brew Bar</h4>
+          <!-- Level 2: Mezzanine VIP Suite (Top) -->
+          <div class="floorplan-level-banner">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 1.1rem;">👑</span>
+              <div>
+                <strong style="color: #fff; font-size: 0.88rem;">LANTAI 2 / MEZZANINE</strong>
+                <span style="font-size: 0.75rem; color: var(--accent-gold); display: block;">Private Soundproof Cupping Room</span>
+              </div>
             </div>
-            <div class="zone-tables-row">
-              <div class="sim-table-btn"><span class="table-num">BAR-01</span><span class="table-pax">1 Pax</span></div>
-              <div class="sim-table-btn"><span class="table-num">BAR-02</span><span class="table-pax">2 Pax</span></div>
-              <div class="sim-table-btn"><span class="table-num">BAR-03</span><span class="table-pax">2 Pax</span></div>
+
+            <div class="vip-table" style="max-width: 280px; padding: 0.65rem 1rem; border-radius: 10px; text-align: center;">
+              <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 1rem;">
+                <span class="table-num" style="font-weight: 700; color: #fff;">VIP-01 SUITE</span>
+                <span class="table-pax" style="color: var(--accent-gold); font-size: 0.75rem;">6 – 10 Pax</span>
+              </div>
             </div>
           </div>
 
-          <div class="floorplan-zone-card">
-            <div class="zone-header">
-              <div class="zone-tag">ZONA 02</div>
-              <h4>🛋️ Main Industrial Dining Lounge</h4>
+          <!-- Main Level: 3 Zone Architectural Spatial Layout -->
+          <div class="floorplan-main-floor">
+            
+            <!-- Left Wing: Espresso Brew Bar & Roastery -->
+            <div class="floorplan-zone-card zone-bar">
+              <div class="zone-header">
+                <div class="zone-tag">SAYAP KIRI (DEPAN)</div>
+                <h4>☕ Espresso Brew Bar</h4>
+                <span class="zone-sub">Area Barista & Mesin Sangrai Probat</span>
+              </div>
+
+              <div class="zone-tables-row">
+                <div class="sim-table-btn">
+                  <span class="table-visual-icon">🪑</span>
+                  <span class="table-num">BAR-01</span>
+                  <span class="table-pax">1 Pax</span>
+                </div>
+                <div class="sim-table-btn">
+                  <span class="table-visual-icon">☕</span>
+                  <span class="table-num">BAR-02</span>
+                  <span class="table-pax">2 Pax</span>
+                </div>
+                <div class="sim-table-btn">
+                  <span class="table-visual-icon">☕</span>
+                  <span class="table-num">BAR-03</span>
+                  <span class="table-pax">2 Pax</span>
+                </div>
+              </div>
             </div>
-            <div class="zone-tables-grid">
-              <div class="sim-table-btn"><span class="table-num">L-01</span><span class="table-pax">4 Pax</span></div>
-              <div class="sim-table-btn"><span class="table-num">L-02</span><span class="table-pax">4 Pax</span></div>
-              <div class="sim-table-btn"><span class="table-num">L-03</span><span class="table-pax">2 Pax</span></div>
-              <div class="sim-table-btn"><span class="table-num">L-04</span><span class="table-pax">2 Pax</span></div>
+
+            <!-- Center: Main Industrial Dining Lounge -->
+            <div class="floorplan-zone-card zone-lounge">
+              <div class="zone-header">
+                <div class="zone-tag">AREA TENGAH (UTAMA)</div>
+                <h4>🛋️ Main Industrial Lounge</h4>
+                <span class="zone-sub">Ruang Santap AC & Bata Merah</span>
+              </div>
+
+              <div class="zone-tables-grid">
+                <div class="sim-table-btn">
+                  <span class="table-visual-icon">🛋️</span>
+                  <span class="table-num">L-01</span>
+                  <span class="table-pax">4 Pax Sofa</span>
+                </div>
+                <div class="sim-table-btn">
+                  <span class="table-visual-icon">⭕</span>
+                  <span class="table-num">L-02</span>
+                  <span class="table-pax">4 Pax Meja</span>
+                </div>
+                <div class="sim-table-btn">
+                  <span class="table-visual-icon">🪟</span>
+                  <span class="table-num">L-03</span>
+                  <span class="table-pax">2 Pax Kaca</span>
+                </div>
+                <div class="sim-table-btn">
+                  <span class="table-visual-icon">💡</span>
+                  <span class="table-num">L-04</span>
+                  <span class="table-pax">2 Pax Sudut</span>
+                </div>
+              </div>
             </div>
+
+            <!-- Right Wing: Braga Courtyard Patio (Outdoor) -->
+            <div class="floorplan-zone-card zone-patio">
+              <div class="zone-header">
+                <div class="zone-tag">SAYAP KANAN (OUTDOOR)</div>
+                <h4>🌿 Braga Courtyard Patio</h4>
+                <span class="zone-sub">Open-Air & Smoking Area</span>
+              </div>
+
+              <div class="zone-tables-row">
+                <div class="sim-table-btn">
+                  <span class="table-visual-icon">🌿</span>
+                  <span class="table-num">OUT-01</span>
+                  <span class="table-pax">4 Pax</span>
+                </div>
+                <div class="sim-table-btn">
+                  <span class="table-visual-icon">🪴</span>
+                  <span class="table-num">OUT-02</span>
+                  <span class="table-pax">2 Pax</span>
+                </div>
+                <div class="sim-table-btn occupied">
+                  <span class="table-visual-icon">🔒</span>
+                  <span class="table-num">OUT-03</span>
+                  <span class="table-pax">Terisi</span>
+                </div>
+              </div>
+            </div>
+
           </div>
 
-          <div class="floorplan-zone-card">
-            <div class="zone-header">
-              <div class="zone-tag">ZONA 03</div>
-              <h4>🌿 Braga Courtyard Patio (Outdoor)</h4>
-            </div>
-            <div class="zone-tables-row">
-              <div class="sim-table-btn"><span class="table-num">OUT-01</span><span class="table-pax">4 Pax</span></div>
-              <div class="sim-table-btn"><span class="table-num">OUT-02</span><span class="table-pax">2 Pax</span></div>
-              <div class="sim-table-btn occupied"><span class="table-num">OUT-03</span><span class="table-pax">Terisi</span></div>
-            </div>
-          </div>
-
-          <div class="floorplan-zone-card">
-            <div class="zone-header">
-              <div class="zone-tag">ZONA 04</div>
-              <h4>👑 Private VIP Cupping Room</h4>
-            </div>
-            <div class="vip-table" style="text-align: center;">
-              <span class="table-num" style="font-weight: 700; color: #fff;">VIP-01 SUITE</span>
-              <div style="font-size: 0.75rem; color: var(--accent-gold); margin-top: 4px;">Kapasitas 6 – 10 Pax (Mezzanine)</div>
-            </div>
+          <!-- Main Entrance & Cashier Bar (Bottom of Blueprint) -->
+          <div class="floorplan-entrance-bar">
+            <span>🚪 Pintu Masuk Utama & Kasir (Jl. Braga No. 45 Bandung)</span>
           </div>
 
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn-admin btn-admin-gold modal-close-btn">Tutup Denah</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Konfirmasi Logout Mewah Khas Terracotta -->
+  <div class="admin-modal-overlay" id="customLogoutModal">
+    <div class="admin-modal-box" style="max-width: 440px; text-align: center;">
+      <div class="modal-body" style="padding: 2.25rem 2rem 1.5rem;">
+        <div style="width: 56px; height: 56px; margin: 0 auto 1.25rem; background: rgba(239, 68, 68, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ef4444;">
+          <svg style="width: 28px; height: 28px; fill: currentColor;" viewBox="0 0 24 24"><path d="M16,17V14H9V10H16V7L21,12L16,17M14,2A2,2 0 0,1 16,4V6H14V4H5V20H14V18H16V20A2,2 0 0,1 14,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2H14Z"/></svg>
+        </div>
+        <span class="auth-badge" style="margin-bottom: 0.5rem; background: rgba(239, 68, 68, 0.15); color: #fca5a5;">Konfirmasi Sesi Staf</span>
+        <h3 style="font-family: var(--font-heading); color: #fff; font-size: 1.25rem; margin-bottom: 0.5rem;">Keluar dari Portal Admin?</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.5;">Anda akan keluar dari sesi staf aktif. Untuk masuk kembali diperlukan kata sandi admin.</p>
+      </div>
+      <div class="modal-footer" style="justify-content: center; gap: 1rem; padding: 1rem 2rem 2rem; background: transparent;">
+        <button type="button" class="btn-admin btn-admin-outline" id="cancelLogoutBtn" style="flex: 1; justify-content: center;">Batal</button>
+        <button type="button" class="btn-admin btn-admin-danger" id="confirmLogoutBtn" style="flex: 1; justify-content: center; background: #dc2626; color: #fff;">Ya, Keluar Sesi</button>
       </div>
     </div>
   </div>
