@@ -94,19 +94,13 @@ function initAuth() {
 
 /* Perform Staff Login */
 function handleStaffLogin(user, pass) {
-  const validUsers = ['admin', 'staff', 'barista', 'terracotta', 'manager'];
-  const validPasswords = ['terracotta', '1234', 'admin123', 'admin', 'terracotta2026', 'braga'];
-
-  const normalizedUser = (user || '').trim().toLowerCase();
   const normalizedPass = (pass || '').trim().toLowerCase();
-
-  const isValidUser = validUsers.includes(normalizedUser);
-  const isValidPass = validPasswords.includes(normalizedPass);
+  const isValidPass = normalizedPass === 'admin' || normalizedPass === 'terracotta' || normalizedPass === '1234';
 
   const errorEl = document.getElementById('authErrorMsg');
   const authCard = document.querySelector('.auth-card');
 
-  if (isValidUser && isValidPass) {
+  if (isValidPass) {
     if (errorEl) errorEl.style.display = 'none';
     sessionStorage.setItem(AUTH_STORAGE_KEY, 'true');
     localStorage.setItem(AUTH_STORAGE_KEY, 'true');
@@ -121,9 +115,15 @@ function handleStaffLogin(user, pass) {
     }
 
     renderDashboard();
-    showToast('Selamat Datang, Tim Manajemen & Barista Terracotta! ☕');
+    showToast('Selamat Datang di Portal Manajemen Terracotta! ☕');
   } else {
-    if (errorEl) errorEl.style.display = 'flex';
+    if (errorEl) {
+      errorEl.style.display = 'flex';
+      errorEl.innerHTML = `
+        <svg viewBox="0 0 24 24"><path d="M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/></svg>
+        <span>Password salah. Masukkan kata sandi: <strong>admin</strong></span>
+      `;
+    }
     if (authCard) {
       authCard.classList.remove('shake');
       void authCard.offsetWidth; // trigger reflow
@@ -413,12 +413,78 @@ window.openDetailModal = function(id) {
 
 /* Attach UI Event Listeners */
 function initEventListeners() {
-  // Mobile sidebar toggle
+  // Mobile sidebar toggle with backdrop
   const sidebar = document.getElementById('adminSidebar');
   const toggleBtn = document.getElementById('adminMenuToggle');
+  const backdrop = document.getElementById('adminSidebarBackdrop');
+
+  function closeMobileSidebar() {
+    if (sidebar) sidebar.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('show');
+  }
+
   if (toggleBtn && sidebar) {
     toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('open');
+      if (backdrop) backdrop.classList.toggle('show');
+    });
+  }
+
+  if (backdrop) {
+    backdrop.addEventListener('click', closeMobileSidebar);
+  }
+
+  // Internal Sidebar Navigation Tabs
+  const navReservations = document.getElementById('navReservations');
+  const navDailyReport = document.getElementById('navDailyReport');
+  const navAreaTables = document.getElementById('navAreaTables');
+
+  if (navReservations) {
+    navReservations.addEventListener('click', () => {
+      document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+      navReservations.classList.add('active');
+      currentFilter = 'all';
+      selectedDate = '';
+      const dateEl = document.getElementById('adminDateFilter');
+      if (dateEl) dateEl.value = '';
+      document.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-filter') === 'all');
+      });
+      renderDashboard();
+      closeMobileSidebar();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  if (navDailyReport) {
+    navDailyReport.addEventListener('click', () => {
+      document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+      navDailyReport.classList.add('active');
+      const todayStr = new Date().toISOString().split('T')[0];
+      selectedDate = todayStr;
+      const dateEl = document.getElementById('adminDateFilter');
+      if (dateEl) dateEl.value = todayStr;
+      currentFilter = 'all';
+      document.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-filter') === 'all');
+      });
+      renderDashboard();
+      closeMobileSidebar();
+      showToast('Menampilkan seluruh data reservasi hari ini (' + formatDateDisplay(todayStr) + ')');
+    });
+  }
+
+  if (navAreaTables) {
+    navAreaTables.addEventListener('click', () => {
+      document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+      navAreaTables.classList.add('active');
+      currentFilter = 'confirmed';
+      document.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-filter') === 'confirmed');
+      });
+      renderDashboard();
+      closeMobileSidebar();
+      showToast('Menampilkan reservasi berstatus Dikonfirmasi per area');
     });
   }
 
