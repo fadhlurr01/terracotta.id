@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="terracotta.id - Artisanal Coffee Roastery & Cafe di Braga Bandung. Kopi single origin sangrai presisi, espresso handcrafted, dan artisan pastry.">
+  <title>Terracotta Coffee Roastery Bandung — terracotta.id</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar (terracotta.id Header) -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo-brand">
+        <svg class="logo-cup-icon" viewBox="0 0 24 24">
+          <path d="M2,21V19H20V21H2M20,8V5D20,3.9 19.1,3 18,3H4C2.9,3 2,3.9 2,5V8C2,10.9 4.1,13.3 7,13.9V17H5V19H17V17H15V13.9C17.9,13.3 20,10.9 20,8M4,5H18V8C18,10.2 16.2,12 14,12H8C5.8,12 4,10.2 4,8V5Z"/>
+        </svg>
+        terracotta<span>.id</span>
+      </a>
+
+      <nav class="nav-menu">
+        <div class="nav-item active">
+          <a href="index.html" class="nav-link">Home</a>
+        </div>
+        <div class="nav-item">
+          <a href="about.html" class="nav-link">About ▾</a>
+          <div class="dropdown-menu">
+            <a href="about.html" class="dropdown-item">About Terracotta</a>
+            <a href="about.html#roasters" class="dropdown-item">Master Roasters Bandung</a>
+            <a href="about.html#guestbook" class="dropdown-item">Guestbook & Ulasan</a>
+            <a href="contact.html#faqs" class="dropdown-item">Tanya Jawab (FAQ)</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a href="menu.html" class="nav-link">Menu ▾</a>
+          <div class="dropdown-menu">
+            <a href="menu.html" class="dropdown-item">Menu Classic Board</a>
+            <a href="menu.html#espresso" class="dropdown-item">Espresso Bar</a>
+            <a href="menu.html#handbrew" class="dropdown-item">Manual Brew Single Origin</a>
+            <a href="menu.html#bakery" class="dropdown-item">Bakery & Brunch</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <a href="blog.html" class="nav-link">Journal</a>
+        </div>
+        <div class="nav-item">
+          <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+      </nav>
+
+      <div class="nav-right-actions">
+        <!-- Search & Shopping Bag Icons -->
+        <div class="nav-action-icons">
+          <button class="nav-icon-btn" id="navSearchBtn" aria-label="Search Menu" title="Cari Menu & Beans">
+            <svg viewBox="0 0 24 24">
+              <path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/>
+            </svg>
+          </button>
+          
+          <button class="nav-icon-btn" id="navCartBtn" aria-label="Coffee Bag" title="Keranjang Pesanan">
+            <svg viewBox="0 0 24 24">
+              <path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm7 17H5V8h14v12z"/>
+            </svg>
+            <span class="cart-badge-count">0</span>
+          </button>
+        </div>
+
+        <a href="reservation.html" class="btn btn-gold" style="padding: 0.65rem 1.5rem; font-size: 0.8rem;">Reservasi</a>
+        <div class="hamburger" id="hamburgerBtn" aria-label="Toggle Navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <aside class="mobile-drawer" id="mobileDrawer">
+    <div class="mobile-links">
+      <a href="index.html" class="mobile-link">Home</a>
+      <a href="about.html" class="mobile-link">About Us</a>
+      <a href="menu.html" class="mobile-link">Menu Board</a>
+      <a href="reservation.html" class="mobile-link">Reservasi Meja</a>
+      <a href="blog.html" class="mobile-link">Journal Kopi</a>
+      <a href="contact.html" class="mobile-link">Kontak & Lokasi Bandung</a>
+    </div>
+    <div>
+      <a href="reservation.html" class="btn btn-gold" style="width: 100%;">Reservasi Meja</a>
+    </div>
+  </aside>
+
+  <main>
+    <!-- Hero Section (Terracotta Ripped Edge & Animation) -->
+    <section class="hero-babette ripped-bottom" style="background-image: url('images/hero_bg.jpg');">
+      <div class="hero-overlay"></div>
+      <div class="container hero-content reveal">
+        <span class="script-subtitle">Fresh Roasted Beans, Artisanal Brews Bandung</span>
+        <h1 class="heading-main" style="margin-bottom: 1.25rem;">Real Coffee Craft, Perfect Taste & Exceptional Roast!</h1>
+        <p class="hero-desc">Terracotta adalah micro-roastery spesialis kopi Nusantara & dunia di jantung Kota Bandung. Menyangrai biji kopi pilihan setiap hari dengan presisi tinggi dan atmosfer industrial yang hangat.</p>
+        <div class="hero-btn-group">
+          <a href="menu.html" class="btn btn-gold">Lihat Menu Kopi</a>
+          <a href="reservation.html" class="btn btn-white">Reservasi Meja</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Welcome Section (Offset Dual Image Grid) -->
+    <section class="section section-light">
+      <div class="container">
+        <div class="welcome-grid">
+          <div class="welcome-text reveal-left">
+            <span class="script-subtitle" style="color: var(--accent-terracotta);">Halo Teman Ngopi</span>
+            <h2 class="heading-main dark-text" style="margin-bottom: 1.25rem; font-size: 2.4rem;">Selamat Datang di Terracotta</h2>
+            <p style="color: var(--text-muted-light); margin-bottom: 1rem; line-height: 1.8;">Terracotta Bandung didirikan untuk menghadirkan pengalaman menikmati kopi single-origin terbaik. Kami memadukan ruang seduh bernuansa bata terakota hangat dan mesin sangrai drum besi yang beroperasi langsung di ruang utama.</p>
+            <p style="color: var(--text-muted-light); line-height: 1.8;">Seluruh biji kopi kami peroleh secara direct-trade dari petani lereng Gunung Puntang, Ciwidey, Toraja, hingga Ethiopia dan Kolombia.</p>
+            <div class="welcome-signature">Mahmod Baghdado</div>
+            <p style="font-size: 0.8rem; color: var(--text-muted-light); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem;">Founder & Head Roaster</p>
+          </div>
+
+          <div class="offset-images-wrap reveal-right">
+            <div class="offset-img-1">
+              <img src="images/pour_over.jpg" alt="V60 Hand Brew Pour Over Coffee Terracotta">
+            </div>
+            <div class="offset-img-2">
+              <img src="images/pastry.jpg" alt="Fresh Baked Almond Croissant Terracotta Bandung">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Classic Menu Board Section with Full Thumbnails -->
+    <section class="section ripped-top ripped-bottom" style="background-color: var(--bg-dark);">
+      <div class="container">
+        <div class="reveal" style="text-align: center; max-width: 650px; margin: 0 auto 2rem;">
+          <span class="script-subtitle">Pilihan Kopi & Pastry</span>
+          <h2 class="heading-main">Menu Board Terracotta</h2>
+          <p style="color: var(--text-muted-dark); margin-top: 0.5rem;">Cita rasa kopi single-origin sangrai segar, minuman cold craft, dan artisan pastry Prancis setiap hari di Bandung.</p>
+        </div>
+
+        <div class="menu-board-wrap reveal">
+          <div class="menu-board-cols">
+            
+            <!-- Column 1: Espresso & Hand Brew -->
+            <div>
+              <h3 class="menu-cat-title">Espresso & Hand Brew</h3>
+
+              <div class="menu-item-row" data-category="espresso">
+                <div class="menu-item-thumb">
+                  <img src="images/espresso.jpg" alt="Velvet Double Espresso">
+                </div>
+                <div class="menu-item-details">
+                  <div class="menu-item-header">
+                    <span class="menu-item-name">Velvet Double Espresso</span>
+                    <span class="menu-item-dots"></span>
+                    <span class="menu-item-price">Rp 38.000</span>
+                  </div>
+                  <p class="menu-item-desc">Colombian Huila & Puntang Blend • Ekstraksi 9 bar • Crema cocoa & hazelnut</p>
+                </div>
+              </div>
+
+              <div class="menu-item-row" data-category="espresso">
+                <div class="menu-item-thumb">
+                  <img src="images/flat_white.jpg" alt="Smoked Vanilla Flat White">
+                </div>
+                <div class="menu-item-details">
+                  <div class="menu-item-header">
+                    <span class="menu-item-name">Smoked Vanilla Flat White</span>
+                    <span class="menu-item-dots"></span>
+                    <span class="menu-item-price">Rp 45.000</span>
+                  </div>
+                  <p class="menu-item-desc">Double ristretto, velvety micro-foamed oat milk & Madagascar vanilla</p>
+                </div>
+              </div>
+
+              <div class="menu-item-row" data-category="handbrew">
+                <div class="menu-item-thumb">
+                  <img src="images/pour_over.jpg" alt="Ethiopian Geisha V60">
+                </div>
+                <div class="menu-item-details">
+                  <div class="menu-item-header">
+                    <span class="menu-item-name">Ethiopian Geisha V60</span>
+                    <span class="menu-item-dots"></span>
+                    <span class="menu-item-price">Rp 58.000</span>
+                  </div>
+                  <p class="menu-item-desc">Washed heirloom • Aroma melati, acidity sitrun & manis buah persik</p>
+                </div>
+              </div>
+
+              <div class="menu-item-row" data-category="handbrew">
+                <div class="menu-item-thumb">
+                  <img src="images/puntang_v60.jpg" alt="Gunung Puntang Natural V60">
+                </div>
+                <div class="menu-item-details">
+                  <div class="menu-item-header">
+                    <span class="menu-item-name">Gunung Puntang Natural V60</span>
+                    <span class="menu-item-dots"></span>
+                    <span class="menu-item-price">Rp 42.000</span>
+                  </div>
+                  <p class="menu-item-desc">Kopi kebanggaan Jawa Barat • Manis madu, buah nangka & body lembut</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 2: Cold Craft, Bakery & Brunch -->
+            <div>
+              <h3 class="menu-cat-title">Cold Craft & Bakery</h3>
+
+              <div class="menu-item-row" data-category="coldbrew">
+                <div class="menu-item-thumb">
+                  <img src="images/nitro_cold_brew.jpg" alt="24H Nitro Cold Brew">
+                </div>
+                <div class="menu-item-details">
+                  <div class="menu-item-header">
+                    <span class="menu-item-name">24H Nitro Cold Brew</span>
+                    <span class="menu-item-dots"></span>
+                    <span class="menu-item-price">Rp 46.000</span>
+                  </div>
+                  <p class="menu-item-desc">Ekstraksi dingin 24 jam dengan busa nitrogen selembut stout</p>
+                </div>
+              </div>
+
+              <div class="menu-item-row" data-category="coldbrew">
+                <div class="menu-item-thumb">
+                  <img src="images/orange_tonic.jpg" alt="Iced Orange Tonic Espresso">
+                </div>
+                <div class="menu-item-details">
+                  <div class="menu-item-header">
+                    <span class="menu-item-name">Iced Orange Tonic Espresso</span>
+                    <span class="menu-item-dots"></span>
+                    <span class="menu-item-price">Rp 48.000</span>
+                  </div>
+                  <p class="menu-item-desc">Espresso segar di atas tonic botanical dingin & potongan jeruk segar</p>
+                </div>
+              </div>
+
+              <div class="menu-item-row" data-category="bakery">
+                <div class="menu-item-thumb">
+                  <img src="images/pastry.jpg" alt="Artisan Almond Croissant">
+                </div>
+                <div class="menu-item-details">
+                  <div class="menu-item-header">
+                    <span class="menu-item-name">Artisan Almond Croissant</span>
+                    <span class="menu-item-dots"></span>
+                    <span class="menu-item-price">Rp 39.000</span>
+                  </div>
+                  <p class="menu-item-desc">Pastry mentega Prancis dengan isian krim almond frangipane gurih</p>
+                </div>
+              </div>
+
+              <div class="menu-item-row" data-category="bakery">
+                <div class="menu-item-thumb">
+                  <img src="images/avocado_toast.jpg" alt="Smoked Avocado Sourdough Tartine">
+                </div>
+                <div class="menu-item-details">
+                  <div class="menu-item-header">
+                    <span class="menu-item-name">Smoked Avocado Sourdough</span>
+                    <span class="menu-item-dots"></span>
+                    <span class="menu-item-price">Rp 65.000</span>
+                  </div>
+                  <p class="menu-item-desc">Roti sourdough panggang, alpukat Hass, poached egg organik, rempah dukkah</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div style="text-align: center; margin-top: 3rem;">
+            <a href="menu.html" class="btn btn-gold">Lihat Semua 13 Menu Lengkap</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW SECTION: Pengalaman & Keunggulan Roastery Terracotta Bandung -->
+    <section class="section" id="roasteryExperienceSection">
+      <div class="container">
+        <div class="reveal" style="text-align: center; max-width: 700px; margin: 0 auto 1.5rem;">
+          <span class="script-subtitle">Pilar Keunggulan Kami</span>
+          <h2 class="heading-main">Pengalaman Kopi di Terracotta</h2>
+          <p style="color: var(--text-muted-dark); margin-top: 0.5rem;">Komitmen tanpa kompromi terhadap kualitas biji sangrai, teknik seduh artisanal, dan ruang komunal yang nyaman di Kota Bandung.</p>
+        </div>
+
+        <!-- 3 Feature Pillars Grid -->
+        <div class="experience-pillars-grid">
+          
+          <!-- Pillar 1 -->
+          <div class="pillar-card reveal delay-1">
+            <div class="pillar-img-wrap">
+              <img src="images/hero_bg.jpg" alt="Open Roastery Showcase Bandung">
+            </div>
+            <div class="pillar-body">
+              <div>
+                <span class="pillar-badge">01 • Open Roastery</span>
+                <h3 class="pillar-title">Sangrai Segar Setiap Pagi</h3>
+                <p class="pillar-desc">Mesin sangrai drum besi beroperasi langsung di ruang kafe. Nikmati aroma karamelisasi biji kopi saat pertama kali matang setiap pukul 07:00 pagi.</p>
+              </div>
+              <a href="about.html" class="pillar-link">Pelajari Roasting ➔</a>
+            </div>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="pillar-card reveal delay-2">
+            <div class="pillar-img-wrap">
+              <img src="images/pour_over.jpg" alt="Single Origin Direct Trade">
+            </div>
+            <div class="pillar-body">
+              <div>
+                <span class="pillar-badge">02 • Direct Trade</span>
+                <h3 class="pillar-title">Kemitraan Petani Lokal</h3>
+                <p class="pillar-desc">Bekerja sama erat dengan kelompok tani lereng Gunung Puntang, Ciwidey, dan Toraja untuk memastikan harga yang adil dan mutu biji micro-lot kelas dunia.</p>
+              </div>
+              <a href="blog.html" class="pillar-link">Baca Kisah Petani ➔</a>
+            </div>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="pillar-card reveal delay-3">
+            <div class="pillar-img-wrap">
+              <img src="images/pastry.jpg" alt="Fresh Daily Oven French Pastry">
+            </div>
+            <div class="pillar-body">
+              <div>
+                <span class="pillar-badge">03 • Artisan Bakery</span>
+                <h3 class="pillar-title">Pastry Mentega Prancis</h3>
+                <p class="pillar-desc">Dibuat fresh setiap fajar oleh chef pastry kami menggunakan 100% mentega Prancis murni. Tekstur berlapis renyah yang serasi dengan espresso hangat.</p>
+              </div>
+              <a href="menu.html#bakery" class="pillar-link">Eksplorasi Pastry ➔</a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Spotlight Banner Callout -->
+        <div class="roastery-spotlight-box reveal">
+          <div>
+            <span class="script-subtitle" style="font-size: 1.8rem; color: var(--accent-terracotta);">Sesi Cupping & Workshop</span>
+            <h3 style="font-family: var(--font-heading); font-size: 1.8rem; color: #fff; margin: 0.5rem 0 1rem;">Ingin Mengenal Cita Rasa Kopi Lebih Dalam?</h3>
+            <p style="color: #ded6cc; font-size: 0.95rem; line-height: 1.7; max-width: 540px;">Kami mengadakan sesi *Sensory Coffee Cupping* mingguan bersama Q-Grader Terracotta di ruang VIP Braga. Pelajari kalibrasi rasa, aroma tersembunyi, dan proses pascapanen kopi Nusantara.</p>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
+            <a href="reservation.html" class="btn btn-gold" style="width: 100%; text-align: center;">Reservasi Sesi Cupping</a>
+            <a href="contact.html" class="btn btn-outline-gold" style="width: 100%; text-align: center;">Tanya Info Jadwal</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Side-by-Side Opening Times & Reservation -->
+    <section class="section" id="reservation">
+      <div class="container">
+        <div class="hours-reservation-split reveal">
+          
+          <!-- Left: Opening Hours Card -->
+          <div class="hours-card">
+            <div>
+              <span class="script-subtitle" style="font-size: 1.8rem;">Cek Jadwal Kunjungan</span>
+              <h3 class="heading-sub" style="color: #fff; margin-bottom: 2rem;">Jam Operasional Bandung</h3>
+              
+              <div style="margin-bottom: 1.5rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 1rem;">
+                <div style="display: flex; justify-content: space-between; color: #ded6cc;">
+                  <span>Senin - Jumat</span>
+                  <strong style="color: var(--accent-gold);">07:00 - 22:00 WIB</strong>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 1.5rem; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 1rem;">
+                <div style="display: flex; justify-content: space-between; color: #ded6cc;">
+                  <span>Sabtu</span>
+                  <strong style="color: var(--accent-gold);">07:00 - 23:30 WIB</strong>
+                </div>
+              </div>
+
+              <div style="margin-bottom: 1.5rem; text-align: left;">
+                <div style="display: flex; justify-content: space-between; color: #ded6cc;">
+                  <span>Minggu</span>
+                  <strong style="color: var(--accent-gold);">08:00 - 21:00 WIB</strong>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 2rem;">
+              <span style="font-size: 0.8rem; color: var(--text-muted-dark); text-transform: uppercase;">Hotline Kafe Bandung</span>
+              <h4 style="font-family: var(--font-heading); font-size: 1.4rem; color: var(--accent-gold); margin-top: 0.25rem;">+62 (22) 423-8890</h4>
+            </div>
+          </div>
+
+          <!-- Right: Make A Reservation Form -->
+          <div class="reservation-form-card">
+            <span class="script-subtitle">Reservasi Meja</span>
+            <h3 class="heading-sub" style="color: #fff; margin-bottom: 1.5rem;">Pesan Tempat Duduk Anda</h3>
+            <p style="color: var(--text-muted-dark); font-size: 0.9rem; margin-bottom: 1.75rem;">Pilih tanggal, jumlah orang, dan zona meja untuk memastikan ketersediaan.</p>
+
+            <form id="reservationForm">
+              <div class="form-row">
+                <input type="text" class="form-field" placeholder="Nama Lengkap *" required>
+                <input type="email" class="form-field" placeholder="Alamat Email *" required>
+              </div>
+
+              <div class="form-row">
+                <input type="date" class="form-field" required>
+                <select class="form-field" required>
+                  <option value="08:00 WIB">08:00 WIB — Morning Brew</option>
+                  <option value="11:00 WIB">11:00 WIB — Brunch</option>
+                  <option value="15:00 WIB">15:00 WIB — Afternoon Cupping</option>
+                  <option value="19:00 WIB" selected>19:00 WIB — Evening Lounge</option>
+                  <option value="21:00 WIB">21:00 WIB — Night Bistro</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <select class="form-field" required>
+                  <option value="1 Orang">1 Orang (Solo Tasting)</option>
+                  <option value="2 Orang" selected>2 Orang (Meja Pasangan)</option>
+                  <option value="4 Orang">4 Orang (Meja Grup)</option>
+                  <option value="6+ VIP">6+ Orang (VIP Cupping Room)</option>
+                </select>
+                <select class="form-field">
+                  <option value="Espresso Brew Bar">Espresso Brew Bar (Depan Barista)</option>
+                  <option value="Industrial Dark Lounge">Main Industrial Lounge (Sofa)</option>
+                  <option value="Braga Courtyard Patio">Braga Courtyard Patio (Outdoor)</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-gold" style="width: 100%; margin-top: 0.5rem;">Cari & Reservasi Meja</button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Guestbook Testimonials -->
+    <section class="section section-light">
+      <div class="container">
+        <div class="guestbook-card reveal">
+          <span class="script-subtitle" style="color: var(--accent-terracotta);">Buku Tamu Kami</span>
+          <h2 class="heading-main dark-text" style="font-size: 2.2rem;">Kata Penikmat Kopi Bandung</h2>
+          <div style="color: var(--accent-terracotta); font-size: 1.3rem; margin-top: 0.75rem;">★★★★★</div>
+          <blockquote class="guestbook-quote" style="color: var(--text-dark);">
+            “Kopi Gunung Puntang V60 di Terracotta Braga Bandung benar-benar juara. Suasana warm industrial dengan bata terakota dan aroma sangrai kopinya bikin betah berjam-jam.”
+          </blockquote>
+          <p style="font-weight: 700; color: var(--text-dark);">Aditya Pratama</p>
+          <span style="font-size: 0.8rem; color: var(--text-muted-light);">Coffee Enthusiast Bandung</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Custom Designed Reservation Confirmation Modal -->
+  <div class="res-modal-overlay" id="customResModal">
+    <div class="res-modal-card">
+      <div class="res-modal-badge-icon">✓</div>
+      <span class="script-subtitle" style="font-size: 1.8rem; color: var(--accent-terracotta);">Meja Berhasil Dipesan!</span>
+      <h3 style="font-family: var(--font-heading); color: #fff; font-size: 1.35rem; margin-bottom: 0.5rem;">Reservasi Terkonfirmasi</h3>
+      <p style="color: var(--text-muted-dark); font-size: 0.85rem;">Booking meja Anda telah tercatat di sistem Terracotta Bandung.</p>
+
+      <div class="res-modal-ticket" id="resTicketDetails">
+        <!-- Filled dynamically by main.js -->
+      </div>
+
+      <button class="btn btn-gold" id="closeResModalBtn" style="width: 100%;">Selesai & Tutup</button>
+    </div>
+  </div>
+
+  <!-- Footer with Left Info & Right Bandung Interactive Map -->
+  <footer class="footer-babette">
+    <div class="container">
+      <div class="footer-split-grid reveal">
+        
+        <!-- Left Column: Information & Brand -->
+        <div class="footer-info-col">
+          <div>
+            <a href="index.html" class="logo-brand" style="margin-bottom: 0.75rem;">terracotta<span>.id</span></a>
+            <p style="color: var(--text-muted-dark); font-size: 0.9rem; line-height: 1.7; max-width: 480px;">Micro-roastery dan kafe artisanal di pusat Kota Bandung. Menghadirkan kopi single-origin Nusantara dan dunia dengan dedikasi sangrai presisi.</p>
+          </div>
+
+          <div class="footer-info-details">
+            <div>
+              <h4 style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem; color: #fff; text-transform: uppercase;">Jam Operasional</h4>
+              <div style="font-size: 0.85rem; color: var(--text-muted-dark); line-height: 1.8;">
+                <div>Senin - Jumat: 07:00 - 22:00 WIB</div>
+                <div>Sabtu: 07:00 - 23:30 WIB</div>
+                <div>Minggu: 08:00 - 21:00 WIB</div>
+              </div>
+            </div>
+
+            <div>
+              <h4 style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem; color: #fff; text-transform: uppercase;">Lokasi & Kontak</h4>
+              <div style="font-size: 0.85rem; color: var(--text-muted-dark); line-height: 1.8;">
+                <div>Jl. Braga No. 124, Sumur Bandung</div>
+                <div>Kota Bandung, Jawa Barat 40111</div>
+                <div style="color: var(--accent-gold); font-weight: 700; margin-top: 0.25rem;">+62 (22) 423-8890</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Interactive Bandung Google Map -->
+        <div class="footer-map-col">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.784405374465!2d107.6074213749965!3d-6.916350793083168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e63032a138c7%3A0x8e8334460d3d52aa!2sJl.%20Braga%2C%20Kota%20Bandung%2C%20Jawa%20Barat!5e0!3m2!1sen!2sid!4v1689000000000!5m2!1sen!2sid" 
+            title="Lokasi Terracotta Coffee Roastery Braga Bandung" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 terracotta.id — Artisanal Coffee Roastery Bandung.</p>
+        <p>Crafted with Passion in Bandung, Indonesia</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
