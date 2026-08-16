@@ -604,6 +604,26 @@
     </div>
   </div>
 
+  <!-- Modal: Konfirmasi Hapus Data Reservasi Eksklusif (Custom Luxury Delete Modal) -->
+  <div class="admin-modal-overlay" id="customDeleteModal">
+    <div class="admin-modal-box" style="max-width: 440px; text-align: center;">
+      <div class="modal-body" style="padding: 2.25rem 2rem 1.5rem;">
+        <div style="width: 58px; height: 58px; margin: 0 auto 1.25rem; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ef4444;">
+          <svg style="width: 28px; height: 28px; fill: currentColor;" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/></svg>
+        </div>
+        <span class="auth-badge" style="margin-bottom: 0.5rem; background: rgba(239, 68, 68, 0.15); color: #fca5a5;">Hapus Data Reservasi</span>
+        <h3 style="font-family: var(--font-heading); color: #fff; font-size: 1.25rem; margin-bottom: 0.5rem;">Hapus Reservasi Ini?</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.5;">
+          Apakah Anda yakin ingin menghapus data reservasi <strong id="deleteTargetCode" style="color: var(--accent-gold);">#TRC-BDG-000000</strong> atas nama <strong id="deleteTargetName" style="color: #fff;">-</strong>? Tindakan ini tidak dapat dibatalkan.
+        </p>
+      </div>
+      <div class="modal-footer" style="justify-content: center; gap: 1rem; padding: 1rem 2rem 2rem; background: transparent;">
+        <button type="button" class="btn-admin btn-admin-outline" id="cancelDeleteBtn" style="flex: 1; justify-content: center;">Batal</button>
+        <button type="button" class="btn-admin btn-admin-danger" id="confirmDeleteBtn" style="flex: 1; justify-content: center; background: #dc2626; color: #fff;">Ya, Hapus Data</button>
+      </div>
+    </div>
+  </div>
+
   <script src="js/admin.js"></script>
 </body>
 </html>

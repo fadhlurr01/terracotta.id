@@ -310,6 +310,11 @@ function renderTable(allData) {
         <div class="guest-info">
           <span class="guest-name">${escapeHtml(r.name)}</span>
           <span class="guest-contact">${escapeHtml(r.phone || r.email)}</span>
+          ${r.notes && !r.notes.toLowerCase().includes('tidak ada catatan') ? `
+            <span class="guest-note-badge" title="${escapeHtml(r.notes)}">
+              📝 ${escapeHtml(r.notes.length > 38 ? r.notes.substring(0, 38) + '...' : r.notes)}
+            </span>
+          ` : ''}
         </div>
       </td>
       <td>
@@ -368,15 +373,41 @@ window.updateStatus = function(id, newStatus) {
   }
 };
 
-/* Delete reservation */
+/* Delete reservation with custom luxury modal */
+let pendingDeleteReservationId = null;
+
 window.deleteReservation = function(id) {
-  if (confirm(`Apakah Anda yakin ingin menghapus data reservasi #${id}?`)) {
-    const all = getReservations();
-    const updated = all.filter(r => r.id !== id);
-    saveReservations(updated);
-    showToast(`Reservasi #${id} telah dihapus.`);
+  const all = getReservations();
+  const item = all.find(r => r.id === id);
+  if (!item) return;
+
+  pendingDeleteReservationId = id;
+  const modal = document.getElementById('customDeleteModal');
+  const codeEl = document.getElementById('deleteTargetCode');
+  const nameEl = document.getElementById('deleteTargetName');
+
+  if (codeEl) codeEl.textContent = '#' + item.id;
+  if (nameEl) nameEl.textContent = item.name || '-';
+
+  if (modal) {
+    modal.classList.add('show');
+  } else {
+    // Fallback if modal not present
+    executeDeleteReservation(id);
   }
 };
+
+function executeDeleteReservation(id) {
+  if (!id) return;
+  const all = getReservations();
+  const updated = all.filter(r => r.id !== id);
+  saveReservations(updated);
+  showToast(`Data reservasi #${id} telah dihapus.`);
+  
+  const modal = document.getElementById('customDeleteModal');
+  if (modal) modal.classList.remove('show');
+  pendingDeleteReservationId = null;
+}
 
 /* Open Detail Modal */
 window.openDetailModal = function(id) {
@@ -679,6 +710,25 @@ function initEventListeners() {
   }
   if (confirmLogoutBtn) {
     confirmLogoutBtn.addEventListener('click', executeLogout);
+  }
+
+  // Delete Confirmation Controls
+  const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+  const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+  const deleteModal = document.getElementById('customDeleteModal');
+
+  if (cancelDeleteBtn && deleteModal) {
+    cancelDeleteBtn.addEventListener('click', () => {
+      deleteModal.classList.remove('show');
+      pendingDeleteReservationId = null;
+    });
+  }
+  if (confirmDeleteBtn) {
+    confirmDeleteBtn.addEventListener('click', () => {
+      if (pendingDeleteReservationId) {
+        executeDeleteReservation(pendingDeleteReservationId);
+      }
+    });
   }
 }
 

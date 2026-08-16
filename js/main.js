@@ -117,6 +117,7 @@ function initReservation() {
     const timeInput = form.querySelector('#resTime') || form.querySelectorAll('select')[0];
     const guestsInput = form.querySelector('#resGuests') || form.querySelectorAll('select')[1];
     const areaInput = form.querySelector('#resArea') || form.querySelectorAll('select')[2];
+    const notesInput = form.querySelector('#resNotes');
 
     const name = nameInput?.value?.trim() || 'Tamu Terhormat';
     const email = emailInput?.value?.trim() || 'tamu@terracotta.id';
@@ -125,9 +126,19 @@ function initReservation() {
     const time = timeInput?.value || '19:00 WIB';
     const guests = guestsInput?.value || '2 Orang';
     const area = areaInput?.value || 'Main Industrial Lounge';
+    const userNote = notesInput?.value?.trim() || '';
     
     const tableTag = selectedTableInfo ? ` (Meja: ${selectedTableInfo.id} - ${selectedTableInfo.name})` : '';
     const ref = 'TRC-BDG-' + Math.floor(100000 + Math.random() * 900000);
+
+    // Combine user's special request note with selected table specification
+    let finalNotes = userNote;
+    if (selectedTableInfo) {
+      const tableText = `Pilihan Meja: ${selectedTableInfo.id} (${selectedTableInfo.name})`;
+      finalNotes = userNote ? `${userNote} • [${tableText}]` : `${tableText} — ${selectedTableInfo.desc}`;
+    } else if (!finalNotes) {
+      finalNotes = 'Tidak ada catatan khusus (Pemesanan reguler via website).';
+    }
 
     // Save to localStorage for Admin Portal with 100% synchronized schema
     try {
@@ -142,7 +153,7 @@ function initReservation() {
         time: time,
         guests: guests,
         area: area + tableTag,
-        notes: selectedTableInfo ? `Pemesanan meja spesifik: ${selectedTableInfo.id} (${selectedTableInfo.name}). ${selectedTableInfo.desc}` : 'Pemesanan online melalui formulir website.',
+        notes: finalNotes,
         status: 'pending',
         createdAt: new Date().toISOString()
       };
@@ -161,6 +172,7 @@ function initReservation() {
         <div class="ticket-row"><span>Posisi & Area:</span> <strong>${area}${tableTag ? '<br><span style="color: var(--accent-terracotta); font-size: 0.8rem;">' + tableTag + '</span>' : ''}</strong></div>
         <div class="ticket-row"><span>Jumlah Tamu:</span> <strong>${guests}</strong></div>
         <div class="ticket-row"><span>Nomor WhatsApp:</span> <strong>${phone}</strong></div>
+        <div class="ticket-row"><span>Catatan Khusus:</span> <strong style="color: #ded6cc; font-weight: normal;">${userNote || 'Tidak ada catatan khusus'}</strong></div>
         <div class="ticket-row"><span>Kode Booking:</span> <strong style="color: var(--accent-gold);">${ref}</strong></div>
         <div class="ticket-row"><span>Status:</span> <strong style="color: #f59e0b;">Menunggu Konfirmasi Staf Roastery</strong></div>
       `;
