@@ -478,13 +478,9 @@ function initEventListeners() {
     navAreaTables.addEventListener('click', () => {
       document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
       navAreaTables.classList.add('active');
-      currentFilter = 'confirmed';
-      document.querySelectorAll('.filter-btn').forEach(b => {
-        b.classList.toggle('active', b.getAttribute('data-filter') === 'confirmed');
-      });
-      renderDashboard();
+      const floorModal = document.getElementById('adminFloorPlanModal');
+      if (floorModal) floorModal.classList.add('show');
       closeMobileSidebar();
-      showToast('Menampilkan reservasi berstatus Dikonfirmasi per area');
     });
   }
 

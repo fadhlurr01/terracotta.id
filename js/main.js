@@ -71,26 +71,29 @@ function initMobileDrawer() {
 }
 
 /* Custom Styled Reservation Notification Modal & Admin Storage Sync */
+let selectedTableInfo = null;
+
 function initReservation() {
   const form = document.getElementById('reservationForm');
   const modal = document.getElementById('customResModal');
   const closeBtn = document.getElementById('closeResModalBtn');
+
+  initSeatingSimulator();
 
   if (!form || !modal) return;
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const name = form.querySelector('input[placeholder*="Nama"], input[placeholder*="Name"]')?.value || 'Tamu Terhormat';
-    const email = form.querySelector('input[type="email"]')?.value || 'tamu@terracotta.id';
-    const phone = form.querySelector('input[type="tel"]')?.value || '-';
-    const date = form.querySelector('input[type="date"]')?.value || new Date().toISOString().split('T')[0];
+    const name = document.getElementById('resGuestName')?.value || 'Tamu Terhormat';
+    const email = document.getElementById('resGuestEmail')?.value || 'tamu@terracotta.id';
+    const phone = document.getElementById('resGuestPhone')?.value || '-';
+    const date = document.getElementById('resDate')?.value || new Date().toISOString().split('T')[0];
+    const time = document.getElementById('resTime')?.value || '19:00 WIB';
+    const guests = document.getElementById('resGuests')?.value || '2 Orang';
+    const area = document.getElementById('resArea')?.value || 'Main Industrial Lounge';
     
-    const selects = form.querySelectorAll('select');
-    const time = selects[0] ? selects[0].value : '19:00 WIB';
-    const guests = selects[1] ? selects[1].value : '2 Orang';
-    const area = selects[2] ? selects[2].value : 'Espresso Brew Bar';
-    
+    const tableTag = selectedTableInfo ? ` (Meja: ${selectedTableInfo.id} - ${selectedTableInfo.name})` : '';
     const ref = 'TRC-BDG-' + Math.floor(100000 + Math.random() * 900000);
 
     // Save to localStorage for Admin Portal
@@ -105,8 +108,8 @@ function initReservation() {
         date: date,
         time: time,
         guests: guests,
-        area: area,
-        notes: 'Pemesanan online melalui formulir website.',
+        area: area + tableTag,
+        notes: selectedTableInfo ? `Pemesanan meja spesifik: ${selectedTableInfo.id} (${selectedTableInfo.name}). ${selectedTableInfo.desc}` : 'Pemesanan online melalui simulasi denah website.',
         status: 'pending',
         createdAt: new Date().toISOString()
       };
@@ -121,7 +124,8 @@ function initReservation() {
       ticketBody.innerHTML = `
         <div class="ticket-row"><span>Nama Tamu:</span> <strong>${name}</strong></div>
         <div class="ticket-row"><span>Waktu Reservasi:</span> <strong>${date} pukul ${time}</strong></div>
-        <div class="ticket-row"><span>Jumlah Tamu:</span> <strong>${guests} (${area})</strong></div>
+        <div class="ticket-row"><span>Posisi & Area:</span> <strong>${area}${tableTag ? '<br><span style="color: var(--accent-terracotta); font-size: 0.8rem;">' + tableTag + '</span>' : ''}</strong></div>
+        <div class="ticket-row"><span>Jumlah Tamu:</span> <strong>${guests}</strong></div>
         <div class="ticket-row"><span>Nomor WhatsApp:</span> <strong>${phone}</strong></div>
         <div class="ticket-row"><span>Kode Booking:</span> <strong style="color: var(--accent-gold);">${ref}</strong></div>
         <div class="ticket-row"><span>Status:</span> <strong style="color: #f59e0b;">Menunggu Konfirmasi Staf Roastery</strong></div>
@@ -130,6 +134,12 @@ function initReservation() {
 
     modal.classList.add('show');
     form.reset();
+
+    // Reset table callout
+    const callout = document.getElementById('selectedTableCallout');
+    if (callout) callout.style.display = 'none';
+    selectedTableInfo = null;
+    document.querySelectorAll('.sim-table-btn').forEach(btn => btn.classList.remove('selected'));
   });
 
   if (closeBtn) {
@@ -142,6 +152,73 @@ function initReservation() {
     if (e.target === modal) {
       modal.classList.remove('show');
     }
+  });
+}
+
+/* Interactive Seating Floor Plan Controller */
+function initSeatingSimulator() {
+  const tableBtns = document.querySelectorAll('.sim-table-btn');
+  const inspector = document.getElementById('tableInspectorBox');
+  const inspectTitle = document.getElementById('inspectTableName');
+  const inspectDesc = document.getElementById('inspectTableDesc');
+  const callout = document.getElementById('selectedTableCallout');
+  const calloutTitle = document.getElementById('calloutTableName');
+  const calloutDesc = document.getElementById('calloutTableDesc');
+  const resArea = document.getElementById('resArea');
+  const resGuests = document.getElementById('resGuests');
+
+  if (tableBtns.length === 0) return;
+
+  tableBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.classList.contains('occupied')) {
+        alert('Meja ini sedang digunakan atau sudah memiliki reservasi pada sesi aktif.');
+        return;
+      }
+
+      // Toggle active class
+      tableBtns.forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+
+      const id = btn.getAttribute('data-id');
+      const name = btn.getAttribute('data-name');
+      const area = btn.getAttribute('data-area');
+      const capacity = btn.getAttribute('data-capacity');
+      const desc = btn.getAttribute('data-desc');
+
+      selectedTableInfo = { id, name, area, capacity, desc };
+
+      // Update Inspector
+      if (inspectTitle) inspectTitle.textContent = `${id} — ${name}`;
+      if (inspectDesc) inspectDesc.textContent = `Area: ${area} • Kapasitas: ${capacity} • ${desc}`;
+      if (inspector) inspector.style.display = 'flex';
+
+      // Update Form Inputs Automatically
+      if (resArea && area) {
+        for (let i = 0; i < resArea.options.length; i++) {
+          if (resArea.options[i].value === area) {
+            resArea.selectedIndex = i;
+            break;
+          }
+        }
+      }
+
+      if (resGuests && capacity) {
+        for (let i = 0; i < resGuests.options.length; i++) {
+          if (resGuests.options[i].value === capacity) {
+            resGuests.selectedIndex = i;
+            break;
+          }
+        }
+      }
+
+      // Update Callout on Form
+      if (callout && calloutTitle && calloutDesc) {
+        calloutTitle.textContent = `Meja Terpilih: ${id} (${name})`;
+        calloutDesc.textContent = `Area ${area} • ${capacity} • ${desc}`;
+        callout.style.display = 'flex';
+      }
+    });
   });
 }
 

@@ -1167,3 +1167,294 @@ button {
     padding: 1.5rem 1rem;
   }
 }
+
+/* ==========================================================================
+   Interactive Table Seating Floor Plan / Simulator Styles
+   ========================================================================== */
+.seating-simulator-section {
+  width: 100%;
+}
+
+.floorplan-board {
+  background: radial-gradient(circle at 50% 30%, #1e1916 0%, #110d0b 100%);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.floorplan-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px dashed rgba(217, 119, 54, 0.2);
+  margin-bottom: 2rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  color: #ded6cc;
+}
+
+.legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.legend-dot.available {
+  background: var(--accent-gold);
+  box-shadow: 0 0 10px rgba(200, 157, 86, 0.6);
+}
+
+.legend-dot.selected {
+  background: var(--accent-terracotta);
+  box-shadow: 0 0 10px rgba(217, 119, 54, 0.8);
+}
+
+.legend-dot.occupied {
+  background: #6b635c;
+}
+
+/* Floorplan Grid */
+.floorplan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.floorplan-zone-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+}
+
+.floorplan-zone-card:hover {
+  border-color: rgba(217, 119, 54, 0.3);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.zone-header {
+  margin-bottom: 1.25rem;
+}
+
+.zone-tag {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--accent-terracotta);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.25rem;
+}
+
+.zone-header h4 {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  color: #fff;
+  font-weight: 700;
+}
+
+.zone-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted-dark);
+}
+
+.zone-tables-row {
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.zone-tables-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+/* Interactive Table Button */
+.sim-table-btn {
+  flex: 1;
+  min-width: 75px;
+  background: #171310;
+  border: 1px solid rgba(200, 157, 86, 0.3);
+  border-radius: 10px;
+  padding: 0.85rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  color: #fff;
+  text-align: center;
+}
+
+.sim-table-btn .table-num {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+
+.sim-table-btn .table-pax {
+  font-size: 0.72rem;
+  color: var(--accent-gold);
+  background: rgba(200, 157, 86, 0.1);
+  padding: 0.15rem 0.45rem;
+  border-radius: 20px;
+}
+
+.sim-table-btn:hover:not(.occupied) {
+  transform: translateY(-4px) scale(1.03);
+  border-color: var(--accent-gold);
+  background: #231c18;
+  box-shadow: 0 8px 20px rgba(200, 157, 86, 0.25);
+}
+
+.sim-table-btn.selected {
+  border-color: var(--accent-terracotta);
+  background: linear-gradient(145deg, #2b1d16, #1d1410);
+  box-shadow: 0 0 25px rgba(217, 119, 54, 0.45);
+  transform: translateY(-4px) scale(1.05);
+}
+
+.sim-table-btn.selected .table-num {
+  color: var(--accent-terracotta);
+}
+
+.sim-table-btn.selected .table-pax {
+  background: var(--accent-terracotta);
+  color: #fff;
+}
+
+.sim-table-btn.occupied {
+  background: #141110;
+  border-color: rgba(255, 255, 255, 0.05);
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.sim-table-btn.occupied .table-num {
+  color: var(--text-muted-dark);
+}
+
+.sim-table-btn.occupied .table-pax {
+  color: #888;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* VIP Table Style */
+.vip-table {
+  width: 100%;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, rgba(200, 157, 86, 0.08) 0%, rgba(217, 119, 54, 0.08) 100%);
+  border: 1px dashed var(--accent-gold);
+}
+
+.vip-table .vip-table-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Table Inspector Box */
+.table-inspector-box {
+  background: rgba(217, 119, 54, 0.1);
+  border: 1px solid rgba(217, 119, 54, 0.3);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  animation: fadeIn 0.3s ease;
+}
+
+.inspector-badge {
+  background: var(--accent-terracotta);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.inspector-details {
+  flex: 1;
+}
+
+.inspector-details h3 {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  color: #fff;
+  margin-bottom: 0.2rem;
+}
+
+.inspector-details p {
+  font-size: 0.85rem;
+  color: #ded6cc;
+  line-height: 1.4;
+}
+
+/* Callout on Form */
+.selected-table-callout {
+  background: rgba(217, 119, 54, 0.12);
+  border: 1px solid rgba(217, 119, 54, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.callout-icon {
+  font-size: 1.3rem;
+}
+
+.callout-text strong {
+  font-size: 0.88rem;
+  color: var(--accent-gold);
+  display: block;
+}
+
+.callout-text p {
+  font-size: 0.78rem;
+  color: #ded6cc;
+}
+
+@media (max-width: 768px) {
+  .floorplan-board {
+    padding: 1.5rem 1rem;
+  }
+
+  .table-inspector-box {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .table-inspector-box .btn {
+    width: 100%;
+  }
+}
+

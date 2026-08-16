@@ -145,24 +145,24 @@
 
             <form id="reservationForm">
               <div class="form-row">
-                <input type="text" class="form-field" placeholder="Nama Lengkap *" required>
-                <input type="email" class="form-field" placeholder="Alamat Email *" required>
+                <input type="text" id="resGuestName" class="form-field" placeholder="Nama Lengkap *" required>
+                <input type="email" id="resGuestEmail" class="form-field" placeholder="Alamat Email *" required>
               </div>
 
               <div class="form-row">
-                <input type="tel" class="form-field" placeholder="Nomor WhatsApp *" required>
-                <input type="date" class="form-field" required>
+                <input type="tel" id="resGuestPhone" class="form-field" placeholder="Nomor WhatsApp *" required>
+                <input type="date" id="resDate" class="form-field" required>
               </div>
 
               <div class="form-row">
-                <select class="form-field" required>
+                <select id="resTime" class="form-field" required>
                   <option value="08:00 WIB">08:00 WIB — Morning Brew</option>
                   <option value="11:00 WIB">11:00 WIB — Brunch</option>
                   <option value="15:00 WIB">15:00 WIB — Afternoon Cupping</option>
                   <option value="19:00 WIB" selected>19:00 WIB — Evening Lounge</option>
                   <option value="21:00 WIB">21:00 WIB — Night Bistro</option>
                 </select>
-                <select class="form-field" required>
+                <select id="resGuests" class="form-field" required>
                   <option value="1 Orang">1 Orang (Solo Tasting)</option>
                   <option value="2 Orang" selected>2 Orang (Meja Pasangan)</option>
                   <option value="4 Orang">4 Orang (Meja Grup)</option>
@@ -171,17 +171,171 @@
               </div>
 
               <div class="form-row">
-                <select class="form-field" style="grid-column: 1 / -1;">
+                <select id="resArea" class="form-field" style="grid-column: 1 / -1;">
                   <option value="Espresso Brew Bar">Espresso Brew Bar (Depan Barista)</option>
-                  <option value="Main Industrial Lounge">Main Industrial Dining Lounge</option>
+                  <option value="Main Industrial Lounge" selected>Main Industrial Dining Lounge</option>
                   <option value="Braga Courtyard Patio">Braga Courtyard Patio (Outdoor Area)</option>
                   <option value="Private VIP Cupping Room">Private VIP Cupping Room</option>
                 </select>
               </div>
 
-              <button type="submit" class="btn btn-gold" style="width: 100%; margin-top: 0.75rem;">Cari & Reservasi Meja</button>
+              <!-- Selected Table Notice -->
+              <div class="selected-table-callout" id="selectedTableCallout" style="display: none;">
+                <span class="callout-icon">📍</span>
+                <div class="callout-text">
+                  <strong id="calloutTableName">Meja Terpilih: L-03</strong>
+                  <p id="calloutTableDesc">Area Main Industrial Lounge • 2 Tamu</p>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-gold" style="width: 100%; margin-top: 0.75rem;">Konfirmasi & Booking Meja</button>
             </form>
           </div>
+
+        </div>
+
+        <!-- =========================================================================
+             INTERACTIVE TABLE SEATING FLOOR PLAN / SIMULATOR
+             ========================================================================= -->
+        <div class="seating-simulator-section reveal" style="margin-top: 4.5rem;">
+          <div style="text-align: center; max-width: 700px; margin: 0 auto 2.5rem;">
+            <span class="script-subtitle">Denah & Tata Letak Ruangan</span>
+            <h2 class="heading-main" style="font-size: 2.1rem;">Simulasi Posisi Meja Roastery</h2>
+            <p style="color: var(--text-muted-dark); font-size: 0.92rem; margin-top: 0.4rem;">
+              Klik salah satu meja di bawah ini untuk melihat posisi, suasana tempat duduk, dan otomatis memilihnya ke formulir reservasi.
+            </p>
+          </div>
+
+          <!-- Floor Plan Board -->
+          <div class="floorplan-board">
+            
+            <!-- Floorplan Legend Bar -->
+            <div class="floorplan-legend">
+              <div class="legend-item">
+                <span class="legend-dot available"></span>
+                <span>Tersedia (Klik Meja)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot selected"></span>
+                <span>Meja Terpilih</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-dot occupied"></span>
+                <span>Terisi / Sedang Digunakan</span>
+              </div>
+            </div>
+
+            <!-- Floorplan Grid Zones -->
+            <div class="floorplan-grid">
+              
+              <!-- Zone 1: Espresso Brew Bar -->
+              <div class="floorplan-zone-card zone-bar">
+                <div class="zone-header">
+                  <div class="zone-tag">ZONA 01</div>
+                  <h4>☕ Espresso Brew Bar</h4>
+                  <span class="zone-sub">Area Barista & Mesin Sangrai Probat</span>
+                </div>
+
+                <div class="zone-tables-row">
+                  <button type="button" class="sim-table-btn" data-id="BAR-01" data-name="Bar Table 01" data-area="Espresso Brew Bar" data-capacity="1 Orang" data-desc="High stool solo tasting tepat di depan Slayer Espresso & master barista.">
+                    <span class="table-num">BAR-01</span>
+                    <span class="table-pax">1 Pax</span>
+                  </button>
+                  <button type="button" class="sim-table-btn" data-id="BAR-02" data-name="Bar Table 02" data-area="Espresso Brew Bar" data-capacity="2 Orang" data-desc="Meja bar pasangan dengan view manual brew V60 & cupping roastery.">
+                    <span class="table-num">BAR-02</span>
+                    <span class="table-pax">2 Pax</span>
+                  </button>
+                  <button type="button" class="sim-table-btn" data-id="BAR-03" data-name="Bar Table 03" data-area="Espresso Brew Bar" data-capacity="2 Orang" data-desc="Sudut bar interaktif dekat showcase biji kopi single origin.">
+                    <span class="table-num">BAR-03</span>
+                    <span class="table-pax">2 Pax</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Zone 2: Main Industrial Dining Lounge -->
+              <div class="floorplan-zone-card zone-lounge">
+                <div class="zone-header">
+                  <div class="zone-tag">ZONA 02</div>
+                  <h4>🛋️ Main Industrial Dining Lounge</h4>
+                  <span class="zone-sub">Area Utama Berpendingin AC & Nuansa Bata Merah</span>
+                </div>
+
+                <div class="zone-tables-grid">
+                  <button type="button" class="sim-table-btn" data-id="L-01" data-name="Lounge Table 01 (Sofa)" data-area="Main Industrial Lounge" data-capacity="4 Orang" data-desc="Meja sofa kulit industrial berkapasitas 4 orang, nyaman untuk santap makan & santai.">
+                    <span class="table-num">L-01</span>
+                    <span class="table-pax">4 Pax</span>
+                  </button>
+                  <button type="button" class="sim-table-btn" data-id="L-02" data-name="Lounge Table 02 (Round)" data-area="Main Industrial Lounge" data-capacity="4 Orang" data-desc="Meja bundar kayu jati artisan di tengah ruang lounge beratap tinggi.">
+                    <span class="table-num">L-02</span>
+                    <span class="table-pax">4 Pax</span>
+                  </button>
+                  <button type="button" class="sim-table-btn" data-id="L-03" data-name="Lounge Table 03 (Window View)" data-area="Main Industrial Lounge" data-capacity="2 Orang" data-desc="Meja pasangan favorit dekat jendela kaca menghadap ke jalanan Braga.">
+                    <span class="table-num">L-03</span>
+                    <span class="table-pax">2 Pax</span>
+                  </button>
+                  <button type="button" class="sim-table-btn" data-id="L-04" data-name="Lounge Table 04 (Cozy Nook)" data-area="Main Industrial Lounge" data-capacity="2 Orang" data-desc="Sudut tenang untuk obrolan santai atau kerja produktif dengan colokan listrik.">
+                    <span class="table-num">L-04</span>
+                    <span class="table-pax">2 Pax</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Zone 3: Braga Courtyard Patio (Outdoor) -->
+              <div class="floorplan-zone-card zone-patio">
+                <div class="zone-header">
+                  <div class="zone-tag">ZONA 03</div>
+                  <h4>🌿 Braga Courtyard Patio</h4>
+                  <span class="zone-sub">Outdoor Alfresco & Smoking Area Sejuk Braga</span>
+                </div>
+
+                <div class="zone-tables-row">
+                  <button type="button" class="sim-table-btn" data-id="OUT-01" data-name="Patio Table 01" data-area="Braga Courtyard Patio" data-capacity="4 Orang" data-desc="Meja outdoor rindang di bawah pohon courtyard dengan suasana asri.">
+                    <span class="table-num">OUT-01</span>
+                    <span class="table-pax">4 Pax</span>
+                  </button>
+                  <button type="button" class="sim-table-btn" data-id="OUT-02" data-name="Patio Table 02" data-area="Braga Courtyard Patio" data-capacity="2 Orang" data-desc="Meja bistro outdoor romantis untuk menikmati sore hari di Braga.">
+                    <span class="table-num">OUT-02</span>
+                    <span class="table-pax">2 Pax</span>
+                  </button>
+                  <button type="button" class="sim-table-btn occupied" data-id="OUT-03" data-name="Patio Table 03" data-area="Braga Courtyard Patio" data-capacity="4 Orang" data-desc="Meja teras dekat air mancur taman roastery." title="Sedang Digunakan">
+                    <span class="table-num">OUT-03</span>
+                    <span class="table-pax">Terisi</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Zone 4: Private VIP Cupping Room -->
+              <div class="floorplan-zone-card zone-vip">
+                <div class="zone-header">
+                  <div class="zone-tag">ZONA 04 (MEZZANINE)</div>
+                  <h4>👑 Private VIP Cupping Room</h4>
+                  <span class="zone-sub">Ruang Privat Kedap Suara & Cupping Session</span>
+                </div>
+
+                <div class="zone-vip-wrap">
+                  <button type="button" class="sim-table-btn vip-table" data-id="VIP-01" data-name="VIP Mezzanine Suite" data-area="Private VIP Cupping Room" data-capacity="6+ VIP" data-desc="Ruang privat eksklusif lantai 2 dengan meja kayu oak panjang (kapasitas hingga 10 orang), smart TV presentasi, dan sound system.">
+                    <div class="vip-table-content">
+                      <span class="table-num" style="font-size: 1.1rem; font-weight: 700;">VIP-01 SUITE</span>
+                      <span class="table-pax">Kapasitas 6 – 10 Orang (VIP Private)</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Table Detail Pop-Card at bottom of floor plan -->
+            <div class="table-inspector-box" id="tableInspectorBox">
+              <div class="inspector-badge">MEJA DIPILIH</div>
+              <div class="inspector-details">
+                <h3 id="inspectTableName">L-03 (Window View)</h3>
+                <p id="inspectTableDesc">Area: Main Industrial Lounge • Kapasitas: 2 Orang • Pemandangan kaca menghadap ke jalanan Braga.</p>
+              </div>
+              <a href="#reservationForm" class="btn btn-gold" style="white-space: nowrap;">Gunakan Meja Ini ➔</a>
+            </div>
+
+          </div>
+        </div>
 
         </div>
       </div>
