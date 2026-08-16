@@ -397,32 +397,37 @@
 
             <form id="reservationForm">
               <div class="form-row">
-                <input type="text" class="form-field" placeholder="Nama Lengkap *" required>
-                <input type="email" class="form-field" placeholder="Alamat Email *" required>
+                <input type="text" id="resGuestName" class="form-field" placeholder="Nama Lengkap *" required>
+                <input type="email" id="resGuestEmail" class="form-field" placeholder="Alamat Email *" required>
               </div>
 
               <div class="form-row">
-                <input type="date" class="form-field" required>
-                <select class="form-field" required>
+                <input type="tel" id="resGuestPhone" class="form-field" placeholder="Nomor WhatsApp *" required>
+                <input type="date" id="resDate" class="form-field" required>
+              </div>
+
+              <div class="form-row">
+                <select id="resTime" class="form-field" required>
                   <option value="08:00 WIB">08:00 WIB — Morning Brew</option>
                   <option value="11:00 WIB">11:00 WIB — Brunch</option>
                   <option value="15:00 WIB">15:00 WIB — Afternoon Cupping</option>
                   <option value="19:00 WIB" selected>19:00 WIB — Evening Lounge</option>
                   <option value="21:00 WIB">21:00 WIB — Night Bistro</option>
                 </select>
-              </div>
-
-              <div class="form-row">
-                <select class="form-field" required>
+                <select id="resGuests" class="form-field" required>
                   <option value="1 Orang">1 Orang (Solo Tasting)</option>
                   <option value="2 Orang" selected>2 Orang (Meja Pasangan)</option>
                   <option value="4 Orang">4 Orang (Meja Grup)</option>
                   <option value="6+ VIP">6+ Orang (VIP Cupping Room)</option>
                 </select>
-                <select class="form-field">
+              </div>
+
+              <div class="form-row">
+                <select id="resArea" class="form-field" style="grid-column: 1 / -1;">
                   <option value="Espresso Brew Bar">Espresso Brew Bar (Depan Barista)</option>
-                  <option value="Industrial Dark Lounge">Main Industrial Lounge (Sofa)</option>
-                  <option value="Braga Courtyard Patio">Braga Courtyard Patio (Outdoor)</option>
+                  <option value="Main Industrial Lounge" selected>Main Industrial Dining Lounge</option>
+                  <option value="Braga Courtyard Patio">Braga Courtyard Patio (Outdoor Area)</option>
+                  <option value="Private VIP Cupping Room">Private VIP Cupping Room (Mezzanine)</option>
                 </select>
               </div>
 

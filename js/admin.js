@@ -5,7 +5,7 @@
 
 const STORAGE_KEY = 'terracotta_reservations';
 
-// Sample initial mock data if storage is fresh
+// Sample initial mock data matching authentic Terracotta Roastery Zones & Tables
 const SEED_RESERVATIONS = [
   {
     id: 'TRC-BDG-882194',
@@ -13,10 +13,10 @@ const SEED_RESERVATIONS = [
     phone: '081234567890',
     email: 'dimas.w@gmail.com',
     date: new Date().toISOString().split('T')[0],
-    time: '19:00',
-    guests: '2 Tamu',
-    area: 'Indoor Roastery Bar',
-    notes: 'Ulang tahun pernikahan, mohon table dekat window display sangrai.',
+    time: '19:00 WIB',
+    guests: '2 Orang',
+    area: 'Main Industrial Lounge (Meja: L-03 - Window View)',
+    notes: 'Ulang tahun pernikahan, mohon table dekat window display sangrai Braga.',
     status: 'pending', // pending, confirmed, completed, cancelled
     createdAt: new Date(Date.now() - 1000 * 60 * 45).toISOString()
   },
@@ -26,10 +26,10 @@ const SEED_RESERVATIONS = [
     phone: '082198765432',
     email: 'clarissa.p@yahoo.com',
     date: new Date().toISOString().split('T')[0],
-    time: '16:30',
-    guests: '4 Tamu',
-    area: 'Outdoor Braga Terrace',
-    notes: 'Coffee cupping session santai.',
+    time: '15:00 WIB',
+    guests: '4 Orang',
+    area: 'Braga Courtyard Patio (Meja: OUT-01)',
+    notes: 'Coffee cupping session santai di area outdoor.',
     status: 'confirmed',
     createdAt: new Date(Date.now() - 1000 * 60 * 180).toISOString()
   },
@@ -39,10 +39,10 @@ const SEED_RESERVATIONS = [
     phone: '085712344321',
     email: 'reza.f@outlook.com',
     date: new Date().toISOString().split('T')[0],
-    time: '14:00',
-    guests: '3 Tamu',
-    area: 'Espresso Lounge',
-    notes: 'Meeting klien arsitektur.',
+    time: '11:00 WIB',
+    guests: '1 Orang',
+    area: 'Espresso Brew Bar (Meja: BAR-01)',
+    notes: 'Solo coffee tasting & ngobrol profil roasting dengan barista.',
     status: 'completed',
     createdAt: new Date(Date.now() - 1000 * 60 * 360).toISOString()
   },
@@ -52,10 +52,10 @@ const SEED_RESERVATIONS = [
     phone: '087899887766',
     email: 'sarah.amalia@gmail.com',
     date: new Date(Date.now() + 86400000).toISOString().split('T')[0],
-    time: '18:30',
-    guests: '6 Tamu',
-    area: 'Mezzanine VIP Tasting Room',
-    notes: 'Family gathering & artisan pastry testing.',
+    time: '19:00 WIB',
+    guests: '6+ VIP',
+    area: 'Private VIP Cupping Room (Meja: VIP-01 SUITE)',
+    notes: 'Family gathering & private artisan coffee cupping.',
     status: 'confirmed',
     createdAt: new Date(Date.now() - 1000 * 60 * 600).toISOString()
   }
@@ -72,6 +72,13 @@ document.addEventListener('DOMContentLoaded', () => {
   initStorage();
   initAuth();
   initEventListeners();
+  
+  // Real-time synchronization across browser tabs
+  window.addEventListener('storage', (e) => {
+    if (e.key === STORAGE_KEY) {
+      renderDashboard();
+    }
+  });
 });
 
 /* Initialize Auth Guard */
@@ -164,11 +171,35 @@ function executeLogout() {
   showToast('Sesi staf telah berhasil keluar.');
 }
 
-/* Initialize Local Storage */
+/* Initialize Local Storage with Harmonized Roastery Schema */
 function initStorage() {
   const existing = localStorage.getItem(STORAGE_KEY);
   if (!existing || JSON.parse(existing).length === 0) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(SEED_RESERVATIONS));
+  } else {
+    try {
+      const parsed = JSON.parse(existing);
+      let updated = false;
+      const harmonized = parsed.map(item => {
+        if (item.area === 'Indoor Roastery Bar') {
+          item.area = 'Main Industrial Lounge (Meja: L-03 - Window View)';
+          updated = true;
+        } else if (item.area === 'Outdoor Braga Terrace') {
+          item.area = 'Braga Courtyard Patio (Meja: OUT-01)';
+          updated = true;
+        } else if (item.area === 'Espresso Lounge') {
+          item.area = 'Espresso Brew Bar (Meja: BAR-01)';
+          updated = true;
+        } else if (item.area === 'Mezzanine VIP Tasting Room') {
+          item.area = 'Private VIP Cupping Room (Meja: VIP-01 SUITE)';
+          updated = true;
+        }
+        return item;
+      });
+      if (updated) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(harmonized));
+      }
+    } catch(e) {}
   }
 }
 

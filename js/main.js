@@ -85,18 +85,26 @@ function initReservation() {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const name = document.getElementById('resGuestName')?.value || 'Tamu Terhormat';
-    const email = document.getElementById('resGuestEmail')?.value || 'tamu@terracotta.id';
-    const phone = document.getElementById('resGuestPhone')?.value || '-';
-    const date = document.getElementById('resDate')?.value || new Date().toISOString().split('T')[0];
-    const time = document.getElementById('resTime')?.value || '19:00 WIB';
-    const guests = document.getElementById('resGuests')?.value || '2 Orang';
-    const area = document.getElementById('resArea')?.value || 'Main Industrial Lounge';
+    const nameInput = form.querySelector('#resGuestName') || form.querySelector('input[placeholder*="Nama"], input[placeholder*="Name"]');
+    const emailInput = form.querySelector('#resGuestEmail') || form.querySelector('input[type="email"]');
+    const phoneInput = form.querySelector('#resGuestPhone') || form.querySelector('input[type="tel"]');
+    const dateInput = form.querySelector('#resDate') || form.querySelector('input[type="date"]');
+    const timeInput = form.querySelector('#resTime') || form.querySelectorAll('select')[0];
+    const guestsInput = form.querySelector('#resGuests') || form.querySelectorAll('select')[1];
+    const areaInput = form.querySelector('#resArea') || form.querySelectorAll('select')[2];
+
+    const name = nameInput?.value?.trim() || 'Tamu Terhormat';
+    const email = emailInput?.value?.trim() || 'tamu@terracotta.id';
+    const phone = phoneInput?.value?.trim() || '0812-3456-7890';
+    const date = dateInput?.value || new Date().toISOString().split('T')[0];
+    const time = timeInput?.value || '19:00 WIB';
+    const guests = guestsInput?.value || '2 Orang';
+    const area = areaInput?.value || 'Main Industrial Lounge';
     
     const tableTag = selectedTableInfo ? ` (Meja: ${selectedTableInfo.id} - ${selectedTableInfo.name})` : '';
     const ref = 'TRC-BDG-' + Math.floor(100000 + Math.random() * 900000);
 
-    // Save to localStorage for Admin Portal
+    // Save to localStorage for Admin Portal with 100% synchronized schema
     try {
       const STORAGE_KEY = 'terracotta_reservations';
       const existing = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -109,12 +117,13 @@ function initReservation() {
         time: time,
         guests: guests,
         area: area + tableTag,
-        notes: selectedTableInfo ? `Pemesanan meja spesifik: ${selectedTableInfo.id} (${selectedTableInfo.name}). ${selectedTableInfo.desc}` : 'Pemesanan online melalui simulasi denah website.',
+        notes: selectedTableInfo ? `Pemesanan meja spesifik: ${selectedTableInfo.id} (${selectedTableInfo.name}). ${selectedTableInfo.desc}` : 'Pemesanan online melalui formulir website.',
         status: 'pending',
         createdAt: new Date().toISOString()
       };
       existing.unshift(newReservation);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+      window.dispatchEvent(new Event('storage'));
     } catch (err) {
       console.warn('Storage sync error:', err);
     }
