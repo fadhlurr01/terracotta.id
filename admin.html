@@ -83,11 +83,14 @@
     <!-- Left Navigation Sidebar -->
     <aside class="admin-sidebar" id="adminSidebar">
       <div class="sidebar-header">
-        <img src="images/logo.svg" alt="Terracotta Logo" class="logo-img">
-        <div class="sidebar-brand-text">
-          <h2>terracotta<span>.id</span></h2>
-          <p>Roastery Management</p>
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1;">
+          <img src="images/logo.svg" alt="Terracotta Logo" class="logo-img">
+          <div class="sidebar-brand-text">
+            <h2>terracotta<span>.id</span></h2>
+            <p>Roastery Management</p>
+          </div>
         </div>
+        <button class="sidebar-mobile-close" id="adminSidebarCloseBtn" aria-label="Tutup Sidebar">&times;</button>
       </div>
 
       <div class="sidebar-user-pill">
@@ -349,42 +352,90 @@
     </div>
   </div>
 
-  <!-- Modal: Denah & Simulasi Meja Roastery Admin -->
+  <!-- Modal: Denah & Status Area Meja Roastery (Ultra-Modern Interactive Hub) -->
   <div class="admin-modal-overlay" id="adminFloorPlanModal">
-    <div class="admin-modal-box" style="max-width: 780px;">
-      <div class="modal-header">
-        <div>
-          <h3 style="margin-bottom: 2px;">Denah & Simulasi Status Meja Roastery</h3>
-          <p style="font-size: 0.8rem; color: var(--text-muted);">Terracotta Coffee Roastery Braga Bandung</p>
+    <div class="admin-modal-box admin-floorplan-modal-box">
+      <div class="modal-header floorplan-modal-header">
+        <div class="modal-header-info">
+          <div class="header-tag-pill">
+            <span class="pulse-dot"></span>
+            <span>Live Spatial Roastery Monitor</span>
+          </div>
+          <h3>Status Area & Denah Meja Roastery</h3>
+          <p>Kontrol okupansi meja real-time Terracotta Braga Bandung</p>
         </div>
         <button class="modal-close-btn" aria-label="Tutup">&times;</button>
       </div>
-      <div class="modal-body">
+
+      <!-- Live Table Occupancy Summary Strip -->
+      <div class="floorplan-metrics-strip">
+        <div class="metric-pill metric-total">
+          <span class="metric-label">Total Meja</span>
+          <strong class="metric-val" id="adminPlanTotal">11</strong>
+        </div>
+        <div class="metric-pill metric-ready">
+          <span class="status-indicator-dot ready"></span>
+          <span class="metric-label">Tersedia</span>
+          <strong class="metric-val" id="adminPlanReady">10</strong>
+        </div>
+        <div class="metric-pill metric-occupied">
+          <span class="status-indicator-dot occupied"></span>
+          <span class="metric-label">Terisi (In-Use)</span>
+          <strong class="metric-val" id="adminPlanOccupied">1</strong>
+        </div>
+        <div class="metric-pill metric-reserved">
+          <span class="status-indicator-dot reserved"></span>
+          <span class="metric-label">Direservasi</span>
+          <strong class="metric-val" id="adminPlanReserved">0</strong>
+        </div>
+        <div class="metric-pill metric-rate">
+          <span class="metric-label">Tingkat Okupansi</span>
+          <strong class="metric-val" id="adminPlanOccupancyRate">9%</strong>
+        </div>
+      </div>
+
+      <!-- Zone Filter Pills -->
+      <div class="floorplan-zone-filters">
+        <button type="button" class="zone-filter-btn active" data-zone="all">Semua Area (11)</button>
+        <button type="button" class="zone-filter-btn" data-zone="bar">☕ Espresso Bar (3)</button>
+        <button type="button" class="zone-filter-btn" data-zone="lounge">🛋️ Main Lounge (4)</button>
+        <button type="button" class="zone-filter-btn" data-zone="patio">🌿 Courtyard Patio (3)</button>
+        <button type="button" class="zone-filter-btn" data-zone="vip">👑 VIP Mezzanine (1)</button>
+      </div>
+
+      <div class="modal-body floorplan-modal-body">
         <div class="floorplan-roastery-map" style="margin-bottom: 0;">
           
           <!-- Level 2: Mezzanine VIP Suite (Top) -->
-          <div class="floorplan-level-banner">
-            <div style="display: flex; align-items: center; gap: 0.5rem;">
-              <span style="font-size: 1.1rem;">👑</span>
+          <div class="floorplan-level-banner" data-zone-container="vip">
+            <div style="display: flex; align-items: center; gap: 0.65rem;">
+              <div class="level-icon-badge">
+                <svg viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+              </div>
               <div>
-                <strong style="color: #fff; font-size: 0.88rem;">LANTAI 2 / MEZZANINE</strong>
+                <strong style="color: #fff; font-size: 0.88rem; letter-spacing: 0.05em;">LANTAI 2 / MEZZANINE</strong>
                 <span style="font-size: 0.75rem; color: var(--accent-gold); display: block;">Private Soundproof Cupping Room</span>
               </div>
             </div>
 
-            <div class="vip-table" style="max-width: 280px; padding: 0.65rem 1rem; border-radius: 10px; text-align: center;">
+            <button type="button" class="sim-table-btn admin-sim-table-btn vip-table" style="max-width: 300px; padding: 0.75rem 1.1rem; border-radius: 12px;" data-id="VIP-01" data-name="VIP Mezzanine Suite" data-area="Private VIP Cupping Room" data-capacity="6+ VIP" data-status="ready" data-desc="Ruang privat eksklusif lantai 2 dengan meja kayu oak panjang (kapasitas 6-10 orang), smart TV & cupping audio system.">
               <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 1rem;">
-                <span class="table-num" style="font-weight: 700; color: #fff;">VIP-01 SUITE</span>
-                <span class="table-pax" style="color: var(--accent-gold); font-size: 0.75rem;">6 – 10 Pax</span>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span class="table-svg-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                  </span>
+                  <span class="table-num" style="font-weight: 700; color: #fff;">VIP-01 SUITE</span>
+                </div>
+                <span class="table-status-tag ready">Tersedia</span>
               </div>
-            </div>
+            </button>
           </div>
 
           <!-- Main Level: 3 Zone Architectural Spatial Layout -->
           <div class="floorplan-main-floor">
             
             <!-- Left Wing: Espresso Brew Bar & Roastery -->
-            <div class="floorplan-zone-card zone-bar">
+            <div class="floorplan-zone-card zone-bar" data-zone-container="bar">
               <div class="zone-header">
                 <div class="zone-tag">SAYAP KIRI (DEPAN)</div>
                 <h4>☕ Espresso Brew Bar</h4>
@@ -392,80 +443,100 @@
               </div>
 
               <div class="zone-tables-row">
-                <div class="sim-table-btn">
-                  <span class="table-visual-icon">🪑</span>
+                <button type="button" class="sim-table-btn admin-sim-table-btn" data-id="BAR-01" data-name="Bar Table 01" data-area="Espresso Brew Bar" data-capacity="1 Orang" data-status="ready" data-desc="High stool solo tasting tepat di depan Slayer Espresso & master barista.">
+                  <span class="table-svg-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M12 2a4 4 0 0 1 4 4c0 1.85-1.28 3.41-3 3.86V15h3a1 1 0 0 1 1 1v1h1v4h-2v-3H8v3H6v-4h1v-1a1 1 0 0 1 1-1h3V9.86A4.002 4.002 0 0 1 12 2zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>
+                  </span>
                   <span class="table-num">BAR-01</span>
-                  <span class="table-pax">1 Pax</span>
-                </div>
-                <div class="sim-table-btn">
-                  <span class="table-visual-icon">☕</span>
+                  <span class="table-status-tag ready">Tersedia</span>
+                </button>
+                <button type="button" class="sim-table-btn admin-sim-table-btn" data-id="BAR-02" data-name="Bar Table 02" data-area="Espresso Brew Bar" data-capacity="2 Orang" data-status="ready" data-desc="Meja bar pasangan dengan view manual brew V60 & cupping roastery.">
+                  <span class="table-svg-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M2,21V19H20V21H2M20,8V5H18V8H20M20,3A2,2 0 0,1 22,5V8A2,2 0 0,1 20,10H18V13A4,4 0 0,1 14,17H8A4,4 0 0,1 4,13V3H20M16,5H6V13A2,2 0 0,0 8,15H14A2,2 0 0,0 16,13V5Z"/></svg>
+                  </span>
                   <span class="table-num">BAR-02</span>
-                  <span class="table-pax">2 Pax</span>
-                </div>
-                <div class="sim-table-btn">
-                  <span class="table-visual-icon">☕</span>
+                  <span class="table-status-tag ready">Tersedia</span>
+                </button>
+                <button type="button" class="sim-table-btn admin-sim-table-btn" data-id="BAR-03" data-name="Bar Table 03" data-area="Espresso Brew Bar" data-capacity="2 Orang" data-status="ready" data-desc="Sudut bar interaktif dekat showcase biji kopi single origin.">
+                  <span class="table-svg-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M2,21V19H20V21H2M20,8V5H18V8H20M20,3A2,2 0 0,1 22,5V8A2,2 0 0,1 20,10H18V13A4,4 0 0,1 14,17H8A4,4 0 0,1 4,13V3H20M16,5H6V13A2,2 0 0,0 8,15H14A2,2 0 0,0 16,13V5Z"/></svg>
+                  </span>
                   <span class="table-num">BAR-03</span>
-                  <span class="table-pax">2 Pax</span>
-                </div>
+                  <span class="table-status-tag ready">Tersedia</span>
+                </button>
               </div>
             </div>
 
             <!-- Center: Main Industrial Dining Lounge -->
-            <div class="floorplan-zone-card zone-lounge">
+            <div class="floorplan-zone-card zone-lounge" data-zone-container="lounge">
               <div class="zone-header">
                 <div class="zone-tag">AREA TENGAH (UTAMA)</div>
                 <h4>🛋️ Main Industrial Lounge</h4>
-                <span class="zone-sub">Ruang Santap AC & Bata Merah</span>
+                <span class="zone-sub">Ruang Santap AC & Dinding Bata Merah</span>
               </div>
 
               <div class="zone-tables-grid">
-                <div class="sim-table-btn">
-                  <span class="table-visual-icon">🛋️</span>
+                <button type="button" class="sim-table-btn admin-sim-table-btn" data-id="L-01" data-name="Lounge Table 01 (Sofa)" data-area="Main Industrial Lounge" data-capacity="4 Orang" data-status="ready" data-desc="Meja sofa kulit industrial berkapasitas 4 orang, nyaman untuk santai & makan.">
+                  <span class="table-svg-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M20 10V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3a3 3 0 0 0-3 3v5a1 1 0 0 0 1 1h1v1a1 1 0 0 0 2 0v-1h14v1a1 1 0 0 0 2 0v-1h1a1 1 0 0 0 1-1v-5a3 3 0 0 0-3-3zM6 7h12v3H6V7zm14 8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2z"/></svg>
+                  </span>
                   <span class="table-num">L-01</span>
-                  <span class="table-pax">4 Pax Sofa</span>
-                </div>
-                <div class="sim-table-btn">
-                  <span class="table-visual-icon">⭕</span>
+                  <span class="table-status-tag ready">Tersedia</span>
+                </button>
+                <button type="button" class="sim-table-btn admin-sim-table-btn" data-id="L-02" data-name="Lounge Table 02 (Round Table)" data-area="Main Industrial Lounge" data-capacity="4 Orang" data-status="ready" data-desc="Meja bundar kayu jati artisan di tengah ruang lounge beratap tinggi.">
+                  <span class="table-svg-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2v1.05A7.002 7.002 0 0 1 18.95 10H20a2 2 0 1 1 0 4h-1.05A7.002 7.002 0 0 1 14 18.95V20a2 2 0 1 1-4 0v-1.05A7.002 7.002 0 0 1 5.05 14H4a2 2 0 1 1 0-4h1.05A7.002 7.002 0 0 1 10 5.05V4a2 2 0 0 1 2-2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/></svg>
+                  </span>
                   <span class="table-num">L-02</span>
-                  <span class="table-pax">4 Pax Meja</span>
-                </div>
-                <div class="sim-table-btn">
-                  <span class="table-visual-icon">🪟</span>
+                  <span class="table-status-tag ready">Tersedia</span>
+                </button>
+                <button type="button" class="sim-table-btn admin-sim-table-btn" data-id="L-03" data-name="Lounge Table 03 (Window View)" data-area="Main Industrial Lounge" data-capacity="2 Orang" data-status="ready" data-desc="Meja pasangan favorit dekat jendela kaca menghadap ke jalanan Braga.">
+                  <span class="table-svg-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 2v6H5V5h6zm-6 8h6v6H5v-6zm8 6v-6h6v6h-6zm6-8h-6V5h6v6z"/></svg>
+                  </span>
                   <span class="table-num">L-03</span>
-                  <span class="table-pax">2 Pax Kaca</span>
-                </div>
-                <div class="sim-table-btn">
-                  <span class="table-visual-icon">💡</span>
+                  <span class="table-status-tag ready">Tersedia</span>
+                </button>
+                <button type="button" class="sim-table-btn admin-sim-table-btn" data-id="L-04" data-name="Lounge Table 04 (Cozy Nook)" data-area="Main Industrial Lounge" data-capacity="2 Orang" data-status="ready" data-desc="Sudut tenang untuk obrolan santai atau kerja produktif dengan colokan listrik.">
+                  <span class="table-svg-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7zm-2 17v1a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-1h-4zm2-15a5 5 0 0 1 5 5c0 1.63-.79 3.09-2 4v2H9v-2c-1.21-.91-2-2.37-2-4a5 5 0 0 1 5-5z"/></svg>
+                  </span>
                   <span class="table-num">L-04</span>
-                  <span class="table-pax">2 Pax Sudut</span>
-                </div>
+                  <span class="table-status-tag ready">Tersedia</span>
+                </button>
               </div>
             </div>
 
             <!-- Right Wing: Braga Courtyard Patio (Outdoor) -->
-            <div class="floorplan-zone-card zone-patio">
+            <div class="floorplan-zone-card zone-patio" data-zone-container="patio">
               <div class="zone-header">
                 <div class="zone-tag">SAYAP KANAN (OUTDOOR)</div>
                 <h4>🌿 Braga Courtyard Patio</h4>
-                <span class="zone-sub">Open-Air & Smoking Area</span>
+                <span class="zone-sub">Open-Air & Smoking Area Sejuk Braga</span>
               </div>
 
               <div class="zone-tables-row">
-                <div class="sim-table-btn">
-                  <span class="table-visual-icon">🌿</span>
+                <button type="button" class="sim-table-btn admin-sim-table-btn" data-id="OUT-01" data-name="Patio Table 01" data-area="Braga Courtyard Patio" data-capacity="4 Orang" data-status="ready" data-desc="Meja outdoor rindang di bawah kanopi courtyard dengan suasana asri.">
+                  <span class="table-svg-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/></svg>
+                  </span>
                   <span class="table-num">OUT-01</span>
-                  <span class="table-pax">4 Pax</span>
-                </div>
-                <div class="sim-table-btn">
-                  <span class="table-visual-icon">🪴</span>
+                  <span class="table-status-tag ready">Tersedia</span>
+                </button>
+                <button type="button" class="sim-table-btn admin-sim-table-btn" data-id="OUT-02" data-name="Patio Table 02" data-area="Braga Courtyard Patio" data-capacity="2 Orang" data-status="ready" data-desc="Meja bistro outdoor romantis untuk menikmati sore hari di Braga.">
+                  <span class="table-svg-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 0-3 3c0 .87.37 1.66.97 2.21L9.12 11H4a1 1 0 0 0-1 1v1h18v-1a1 1 0 0 0-1-1h-5.12l-.85-2.79A3.003 3.003 0 0 0 15 6a3 3 0 0 0-3-3zm0 2a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm-1 8v6H7v2h10v-2h-4v-6h-2z"/></svg>
+                  </span>
                   <span class="table-num">OUT-02</span>
-                  <span class="table-pax">2 Pax</span>
-                </div>
-                <div class="sim-table-btn occupied">
-                  <span class="table-visual-icon">🔒</span>
+                  <span class="table-status-tag ready">Tersedia</span>
+                </button>
+                <button type="button" class="sim-table-btn admin-sim-table-btn occupied" data-id="OUT-03" data-name="Patio Table 03" data-area="Braga Courtyard Patio" data-capacity="4 Orang" data-status="occupied" data-desc="Meja teras dekat air mancur taman roastery.">
+                  <span class="table-svg-wrap">
+                    <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                  </span>
                   <span class="table-num">OUT-03</span>
-                  <span class="table-pax">Terisi</span>
-                </div>
+                  <span class="table-status-tag occupied">Terisi</span>
+                </button>
               </div>
             </div>
 
@@ -477,8 +548,39 @@
           </div>
 
         </div>
+
+        <!-- Real-Time Interactive Table Management Panel -->
+        <div class="admin-table-manager-box" id="adminTableManagerBox" style="display: none;">
+          <div class="manager-box-header">
+            <div>
+              <div class="manager-badge" id="adminMgrBadge">MEJA TERPILIH</div>
+              <h4 id="adminMgrTableName">L-03 — Lounge Table 03 (Window View)</h4>
+              <p id="adminMgrTableDesc">Area: Main Industrial Lounge • Kapasitas: 2 Orang</p>
+            </div>
+            <div class="manager-status-indicator">
+              <span id="adminMgrStatusPill" class="status-pill confirmed">Tersedia (Ready)</span>
+            </div>
+          </div>
+
+          <div class="manager-actions-row">
+            <span class="action-label">Ubah Status Meja:</span>
+            <div class="action-btn-group">
+              <button type="button" class="btn-mgr-status ready" onclick="setAdminTableStatus('ready')">
+                <span class="dot ready"></span> Set Tersedia
+              </button>
+              <button type="button" class="btn-mgr-status occupied" onclick="setAdminTableStatus('occupied')">
+                <span class="dot occupied"></span> Set Terisi (In-Use)
+              </button>
+              <button type="button" class="btn-mgr-status reserved" onclick="setAdminTableStatus('reserved')">
+                <span class="dot reserved"></span> Set Dipesan (Reserved)
+              </button>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer floorplan-modal-footer">
+        <span class="footer-hint">💡 Klik meja pada denah di atas untuk mengubah status operasional atau melihat detail tamu.</span>
         <button type="button" class="btn-admin btn-admin-gold modal-close-btn">Tutup Denah</button>
       </div>
     </div>

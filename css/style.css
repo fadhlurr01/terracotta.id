@@ -457,17 +457,73 @@ button {
   height: 100vh;
   background: #120e0b;
   border-left: 1px solid var(--border-dark);
-  padding: 5rem 2rem 2.5rem;
+  padding: 1.5rem 1.5rem 2rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   z-index: 1100;
   transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: -10px 0 40px rgba(0,0,0,0.85);
+  overflow-y: auto;
+}
+
+.mobile-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mobile-drawer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--font-script);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.mobile-logo-img {
+  width: 30px;
+  height: 30px;
+}
+
+.mobile-drawer-close {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ded6cc;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.mobile-drawer-close svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.mobile-drawer-close:hover {
+  background: rgba(212, 175, 55, 0.2);
+  color: var(--accent-gold);
+  border-color: var(--accent-gold);
+  transform: rotate(90deg);
 }
 
 .mobile-drawer.open {
   right: 0;
+}
+
+.mobile-drawer-footer {
+  margin-top: 1.5rem;
 }
 
 .mobile-links {
@@ -1378,6 +1434,69 @@ button {
 }
 
 /* Visual Table Shape Icons */
+.table-svg-wrap {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: rgba(212, 175, 55, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-gold);
+  transition: all 0.25s ease;
+  margin-bottom: 3px;
+}
+
+.table-svg-wrap svg {
+  width: 19px;
+  height: 19px;
+  fill: currentColor;
+}
+
+.level-icon-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(212, 175, 55, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-gold);
+}
+
+.level-icon-badge svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.sim-table-btn:hover:not(.occupied) .table-svg-wrap {
+  background: var(--accent-gold);
+  color: #120e0b;
+}
+
+.sim-table-btn.selected .table-svg-wrap {
+  background: var(--accent-terracotta);
+  color: #fff;
+}
+
+.sim-table-btn.occupied {
+  opacity: 0.6;
+  cursor: not-allowed;
+  border-color: rgba(255, 255, 255, 0.1);
+  background: #15110f;
+}
+
+.sim-table-btn.occupied .table-svg-wrap {
+  background: rgba(255, 255, 255, 0.05);
+  color: #888;
+}
+
+.sim-table-btn.occupied .table-pax {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
 .table-visual-icon {
   font-size: 1.25rem;
   line-height: 1;

@@ -453,10 +453,11 @@ window.openDetailModal = function(id) {
 
 /* Attach UI Event Listeners */
 function initEventListeners() {
-  // Mobile sidebar toggle with backdrop
+  // Mobile sidebar toggle with backdrop & close button
   const sidebar = document.getElementById('adminSidebar');
   const toggleBtn = document.getElementById('adminMenuToggle');
   const backdrop = document.getElementById('adminSidebarBackdrop');
+  const sidebarCloseBtn = document.getElementById('adminSidebarCloseBtn');
 
   function closeMobileSidebar() {
     if (sidebar) sidebar.classList.remove('open');
@@ -464,15 +465,30 @@ function initEventListeners() {
   }
 
   if (toggleBtn && sidebar) {
-    toggleBtn.addEventListener('click', () => {
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       sidebar.classList.toggle('open');
       if (backdrop) backdrop.classList.toggle('show');
+    });
+  }
+
+  if (sidebarCloseBtn) {
+    sidebarCloseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeMobileSidebar();
     });
   }
 
   if (backdrop) {
     backdrop.addEventListener('click', closeMobileSidebar);
   }
+
+  // Close sidebar on ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sidebar && sidebar.classList.contains('open')) {
+      closeMobileSidebar();
+    }
+  });
 
   // Internal Sidebar Navigation Tabs
   const navReservations = document.getElementById('navReservations');
@@ -518,8 +534,7 @@ function initEventListeners() {
     navAreaTables.addEventListener('click', () => {
       document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
       navAreaTables.classList.add('active');
-      const floorModal = document.getElementById('adminFloorPlanModal');
-      if (floorModal) floorModal.classList.add('show');
+      openAdminFloorPlanModal();
       closeMobileSidebar();
     });
   }
@@ -533,6 +548,9 @@ function initEventListeners() {
       renderDashboard();
     });
   });
+
+  // Initialize Interactive Floor Plan
+  initAdminFloorPlanManager();
 
   // Search Input
   const searchInput = document.getElementById('adminSearchInput');
@@ -750,4 +768,197 @@ function escapeHtml(text) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
+}
+
+/* ==========================================================================
+   INTERACTIVE ROASTERY TABLE STATUS & SPATIAL BLUEPRINT CONTROLLER
+   ========================================================================== */
+const TABLE_STATUS_KEY = 'terracotta_table_statuses';
+
+const DEFAULT_TABLE_STATUSES = {
+  'VIP-01': 'ready',
+  'BAR-01': 'ready',
+  'BAR-02': 'ready',
+  'BAR-03': 'ready',
+  'L-01': 'ready',
+  'L-02': 'ready',
+  'L-03': 'ready',
+  'L-04': 'ready',
+  'OUT-01': 'ready',
+  'OUT-02': 'ready',
+  'OUT-03': 'occupied'
+};
+
+let activeAdminTableId = null;
+
+function getTableStatuses() {
+  try {
+    const raw = localStorage.getItem(TABLE_STATUS_KEY);
+    return raw ? JSON.parse(raw) : { ...DEFAULT_TABLE_STATUSES };
+  } catch (e) {
+    return { ...DEFAULT_TABLE_STATUSES };
+  }
+}
+
+function saveTableStatuses(statuses) {
+  localStorage.setItem(TABLE_STATUS_KEY, JSON.stringify(statuses));
+  updateFloorPlanUI();
+}
+
+function openAdminFloorPlanModal() {
+  const modal = document.getElementById('adminFloorPlanModal');
+  if (modal) {
+    modal.classList.add('show');
+    updateFloorPlanUI();
+  }
+}
+
+function initAdminFloorPlanManager() {
+  const modal = document.getElementById('adminFloorPlanModal');
+  if (!modal) return;
+
+  // Zone filter pill buttons
+  const zoneBtns = modal.querySelectorAll('.zone-filter-btn');
+  const zoneContainers = modal.querySelectorAll('[data-zone-container]');
+
+  zoneBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      zoneBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const targetZone = btn.getAttribute('data-zone');
+      zoneContainers.forEach(container => {
+        const zoneType = container.getAttribute('data-zone-container');
+        if (targetZone === 'all' || zoneType === targetZone) {
+          container.style.display = '';
+        } else {
+          container.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Table buttons click interaction
+  const tableBtns = modal.querySelectorAll('.admin-sim-table-btn');
+  tableBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tableBtns.forEach(b => b.classList.remove('active-selected'));
+      btn.classList.add('active-selected');
+
+      const id = btn.getAttribute('data-id');
+      const name = btn.getAttribute('data-name');
+      const area = btn.getAttribute('data-area');
+      const capacity = btn.getAttribute('data-capacity');
+      const desc = btn.getAttribute('data-desc');
+
+      activeAdminTableId = id;
+      displayAdminTableManager(id, name, area, capacity, desc);
+    });
+  });
+
+  updateFloorPlanUI();
+}
+
+function displayAdminTableManager(id, name, area, capacity, desc) {
+  const managerBox = document.getElementById('adminTableManagerBox');
+  const nameEl = document.getElementById('adminMgrTableName');
+  const descEl = document.getElementById('adminMgrTableDesc');
+  const statusPill = document.getElementById('adminMgrStatusPill');
+
+  if (!managerBox) return;
+
+  const statuses = getTableStatuses();
+  const status = statuses[id] || 'ready';
+
+  // Check if there is an active reservation for this table
+  const allReservations = getReservations();
+  const activeReservation = allReservations.find(r => 
+    r.area && r.area.includes(id) && (r.status === 'confirmed' || r.status === 'pending')
+  );
+
+  if (nameEl) nameEl.textContent = `${id} — ${name}`;
+  if (descEl) {
+    let text = `Area: ${area} • Kapasitas: ${capacity} • ${desc}`;
+    if (activeReservation) {
+      text += ` [Booking: ${activeReservation.id} atas nama ${activeReservation.name}, ${activeReservation.date} ${activeReservation.time}]`;
+    }
+    descEl.textContent = text;
+  }
+
+  if (statusPill) {
+    statusPill.className = 'status-pill ' + (status === 'ready' ? 'confirmed' : status === 'occupied' ? 'cancelled' : 'pending');
+    statusPill.textContent = status === 'ready' ? 'Tersedia (Ready)' : status === 'occupied' ? 'Terisi (In-Use)' : 'Dipesan (Reserved)';
+  }
+
+  managerBox.style.display = 'block';
+  managerBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+window.setAdminTableStatus = function(newStatus) {
+  if (!activeAdminTableId) {
+    showToast('Silakan pilih salah satu meja terlebih dahulu.');
+    return;
+  }
+
+  const statuses = getTableStatuses();
+  statuses[activeAdminTableId] = newStatus;
+  saveTableStatuses(statuses);
+
+  // Update manager box status pill
+  const statusPill = document.getElementById('adminMgrStatusPill');
+  if (statusPill) {
+    statusPill.className = 'status-pill ' + (newStatus === 'ready' ? 'confirmed' : newStatus === 'occupied' ? 'cancelled' : 'pending');
+    statusPill.textContent = newStatus === 'ready' ? 'Tersedia (Ready)' : newStatus === 'occupied' ? 'Terisi (In-Use)' : 'Dipesan (Reserved)';
+  }
+
+  const label = newStatus === 'ready' ? 'Tersedia' : newStatus === 'occupied' ? 'Terisi' : 'Dipesan';
+  showToast(`Status Meja #${activeAdminTableId} berhasil diubah menjadi "${label}"`);
+};
+
+function updateFloorPlanUI() {
+  const statuses = getTableStatuses();
+  const tableBtns = document.querySelectorAll('.admin-sim-table-btn');
+
+  let countReady = 0;
+  let countOccupied = 0;
+  let countReserved = 0;
+  const total = tableBtns.length || 11;
+
+  tableBtns.forEach(btn => {
+    const id = btn.getAttribute('data-id');
+    const status = statuses[id] || 'ready';
+
+    btn.classList.remove('occupied', 'reserved');
+    if (status === 'occupied') {
+      btn.classList.add('occupied');
+      countOccupied++;
+    } else if (status === 'reserved') {
+      btn.classList.add('reserved');
+      countReserved++;
+    } else {
+      countReady++;
+    }
+
+    const tag = btn.querySelector('.table-status-tag');
+    if (tag) {
+      tag.className = `table-status-tag ${status}`;
+      tag.textContent = status === 'ready' ? 'Tersedia' : status === 'occupied' ? 'Terisi' : 'Dipesan';
+    }
+  });
+
+  // Update summary metrics
+  const totalEl = document.getElementById('adminPlanTotal');
+  const readyEl = document.getElementById('adminPlanReady');
+  const occupiedEl = document.getElementById('adminPlanOccupied');
+  const reservedEl = document.getElementById('adminPlanReserved');
+  const rateEl = document.getElementById('adminPlanOccupancyRate');
+
+  if (totalEl) totalEl.textContent = total;
+  if (readyEl) readyEl.textContent = countReady;
+  if (occupiedEl) occupiedEl.textContent = countOccupied;
+  if (reservedEl) reservedEl.textContent = countReserved;
+  if (rateEl) {
+    const occupiedRatio = total > 0 ? Math.round(((countOccupied + countReserved) / total) * 100) : 0;
+    rateEl.textContent = `${occupiedRatio}%`;
+  }
 }

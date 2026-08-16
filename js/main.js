@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollAnimations();
   initReservation();
   initMenuFilters();
-  initSearchAndCart();
+  initNavbarActions();
 });
 
 /* Scroll Reveal Animation Engine */
@@ -56,16 +56,41 @@ function initNavbar() {
 function initMobileDrawer() {
   const hamburger = document.getElementById('hamburgerBtn');
   const drawer = document.getElementById('mobileDrawer');
+  const closeBtn = document.getElementById('mobileDrawerCloseBtn');
 
-  if (hamburger && drawer) {
-    hamburger.addEventListener('click', () => {
-      drawer.classList.toggle('open');
-    });
+  if (drawer) {
+    if (hamburger) {
+      hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        drawer.classList.toggle('open');
+      });
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        drawer.classList.remove('open');
+      });
+    }
 
     document.querySelectorAll('.mobile-link').forEach(link => {
       link.addEventListener('click', () => {
         drawer.classList.remove('open');
       });
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (drawer.classList.contains('open') && !drawer.contains(e.target) && (!hamburger || !hamburger.contains(e.target))) {
+        drawer.classList.remove('open');
+      }
+    });
+
+    // Close on ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && drawer.classList.contains('open')) {
+        drawer.classList.remove('open');
+      }
     });
   }
 }
@@ -256,20 +281,13 @@ function initMenuFilters() {
   }
 }
 
-/* Navbar Search, Cart, & Admin Action Handlers */
-function initSearchAndCart() {
+/* Navbar Search & Admin Action Handlers */
+function initNavbarActions() {
   const searchBtn = document.getElementById('navSearchBtn');
-  const cartBtn = document.getElementById('navCartBtn');
   const adminBtn = document.getElementById('navAdminBtn');
 
   if (searchBtn) {
     searchBtn.addEventListener('click', () => {
-      window.location.href = 'menu.html';
-    });
-  }
-
-  if (cartBtn) {
-    cartBtn.addEventListener('click', () => {
       window.location.href = 'menu.html';
     });
   }
