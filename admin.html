@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal Reservasi — Terracotta Coffee Roastery</title>
+  <link rel="icon" type="image/svg+xml" href="images/logo.svg">
+  <link rel="apple-touch-icon" href="images/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <div class="admin-layout">
+
+    <!-- Left Navigation Sidebar -->
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="sidebar-header">
+        <img src="images/logo.svg" alt="Terracotta Logo" class="logo-img">
+        <div class="sidebar-brand-text">
+          <h2>terracotta<span>.id</span></h2>
+          <p>Roastery Management</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="admin.html" class="sidebar-link active">
+          <svg viewBox="0 0 24 24"><path d="M19 3H18V1H16V3H8V1H6V3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.89 20.1 3 19 3M19 19H5V8H19V19M7 10H12V15H7V10Z"/></svg>
+          Reservasi Meja
+          <span class="badge" id="sidebarPendingBadge" style="display: none;">0</span>
+        </a>
+        <a href="menu.html" class="sidebar-link" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M11 9H9V2H7V9H5V2H3V9C3 11.12 4.66 12.84 6.75 12.97V22H9.25V12.97C11.34 12.84 13 11.12 13 9V2H11V9M16 6V14H18.5V22H21V2C18.24 2 16 4.24 16 6Z"/></svg>
+          Katalog Menu
+        </a>
+        <a href="reservation.html" class="sidebar-link" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2M12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20M12.5 7H11V13L16.2 16.2L17 14.9L12.5 12.2V7Z"/></svg>
+          Form Pelanggan
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="index.html" class="back-to-site-btn">
+          <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg>
+          Kembali ke Website
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+
+      <!-- Sticky Topbar -->
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle-btn" id="adminMenuToggle" aria-label="Toggle Menu">
+            <svg viewBox="0 0 24 24"><path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"/></svg>
+          </button>
+          <div class="topbar-title">
+            <h1>Manajemen Reservasi Meja</h1>
+            <p>Terracotta Coffee Roastery Bandung (Braga)</p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button class="btn-admin btn-admin-outline" id="exportCsvBtn" title="Download data reservasi format CSV">
+            <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24"><path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/></svg>
+            Export CSV
+          </button>
+          <button class="btn-admin btn-admin-gold" id="openAddWalkInBtn">
+            <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24"><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg>
+            + Tambah Walk-In
+          </button>
+        </div>
+      </header>
+
+      <!-- Dashboard Container -->
+      <div class="admin-container">
+
+        <!-- KPI Statistic Cards -->
+        <section class="stats-grid">
+          <div class="stat-card total">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24"><path d="M19,3H18V1H16V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,19H5V8H19V19Z"/></svg>
+            </div>
+            <div class="stat-info">
+              <h3>Total Reservasi</h3>
+              <div class="stat-number" id="statTotal">0</div>
+            </div>
+          </div>
+
+          <div class="stat-card pending">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12.5,7H11V13L16.2,16.2L17,14.9L12.5,12.2V7Z"/></svg>
+            </div>
+            <div class="stat-info">
+              <h3>Menunggu Konfirmasi</h3>
+              <div class="stat-number" id="statPending">0</div>
+            </div>
+          </div>
+
+          <div class="stat-card confirmed">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/></svg>
+            </div>
+            <div class="stat-info">
+              <h3>Dikonfirmasi (Siap)</h3>
+              <div class="stat-number" id="statConfirmed">0</div>
+            </div>
+          </div>
+
+          <div class="stat-card completed">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,6A3.5,3.5 0 0,1 15.5,9.5A3.5,3.5 0 0,1 12,13A3.5,3.5 0 0,1 8.5,9.5A3.5,3.5 0 0,1 12,6M12,20A7.5,7.5 0 0,1 5.93,16.83C5.96,14.82 9.98,13.72 12,13.72C14.02,13.72 18.04,14.82 18.07,16.83A7.5,7.5 0 0,1 12,20Z"/></svg>
+            </div>
+            <div class="stat-info">
+              <h3>Estimasi Tamu Hari Ini</h3>
+              <div class="stat-number" id="statGuestsToday">0</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Controls: Filter Tabs, Live Search, Date Picker -->
+        <div class="controls-card">
+          <div class="filter-tabs">
+            <button class="filter-btn active" data-filter="all">Semua</button>
+            <button class="filter-btn" data-filter="pending">Menunggu Konfirmasi</button>
+            <button class="filter-btn" data-filter="confirmed">Dikonfirmasi</button>
+            <button class="filter-btn" data-filter="completed">Selesai / Hadir</button>
+            <button class="filter-btn" data-filter="cancelled">Dibatalkan</button>
+          </div>
+
+          <div class="search-and-date">
+            <div class="search-input-wrap">
+              <svg viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/></svg>
+              <input type="text" id="adminSearchInput" class="search-input" placeholder="Cari nama, telp, kode booking...">
+            </div>
+            <input type="date" id="adminDateFilter" class="date-filter-input" title="Filter Tanggal Kunjungan">
+          </div>
+        </div>
+
+        <!-- Reservations Table -->
+        <div class="table-card">
+          <div class="table-header-bar">
+            <h2>Daftar Booking & Reservasi</h2>
+            <div class="table-header-actions">
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Real-Time Sync Aktif ●</span>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="reservation-table">
+              <thead>
+                <tr>
+                  <th>Kode Booking</th>
+                  <th>Nama Tamu & Kontak</th>
+                  <th>Tanggal & Sesi</th>
+                  <th>Jumlah & Area</th>
+                  <th>Status</th>
+                  <th style="text-align: right;">Aksi Cepat</th>
+                </tr>
+              </thead>
+              <tbody id="reservationTableBody">
+                <!-- Dynamically Injected by admin.js -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Empty State -->
+          <div class="empty-state" id="emptyState" style="display: none;">
+            <svg viewBox="0 0 24 24"><path d="M19,19H5V8H19M16,1V3H8V1H6V3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3H18V1M17,12H12V17H17V12Z"/></svg>
+            <h3>Tidak Ada Data Reservasi</h3>
+            <p>Belum ada data reservasi yang sesuai dengan kriteria filter atau pencarian Anda.</p>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Modal: Detail Reservasi -->
+  <div class="admin-modal-overlay" id="detailModal">
+    <div class="admin-modal-box">
+      <div class="modal-header">
+        <h3>Rincian Reservasi Tamu</h3>
+        <button class="modal-close-btn" aria-label="Tutup">&times;</button>
+      </div>
+      <div class="modal-body" id="detailModalBody">
+        <!-- Injected via admin.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Tambah Walk-in Manual -->
+  <div class="admin-modal-overlay" id="addWalkInModal">
+    <div class="admin-modal-box">
+      <div class="modal-header">
+        <h3>Tambah Reservasi Walk-In / Telepon</h3>
+        <button class="modal-close-btn" id="closeAddWalkInBtn" aria-label="Tutup">&times;</button>
+      </div>
+      <form id="addWalkInForm">
+        <div class="modal-body">
+          <div class="admin-form-group">
+            <label for="addName">Nama Tamu / Pemesan *</label>
+            <input type="text" id="addName" class="admin-form-input" placeholder="Contoh: Bpk. Hendra Wijaya" required>
+          </div>
+
+          <div class="admin-form-group">
+            <label for="addPhone">Nomor WhatsApp / HP *</label>
+            <input type="tel" id="addPhone" class="admin-form-input" placeholder="08123456789" required>
+          </div>
+
+          <div class="admin-form-group">
+            <label for="addEmail">Email (Opsional)</label>
+            <input type="email" id="addEmail" class="admin-form-input" placeholder="email@contoh.com">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="admin-form-group">
+              <label for="addDate">Tanggal Kunjungan *</label>
+              <input type="date" id="addDate" class="admin-form-input" required>
+            </div>
+            <div class="admin-form-group">
+              <label for="addTime">Sesi Waktu *</label>
+              <select id="addTime" class="admin-form-select" required>
+                <option value="08:00">08:00 WIB (Morning Brew)</option>
+                <option value="10:00">10:00 WIB (Brunch)</option>
+                <option value="13:00">13:00 WIB (Afternoon Roast)</option>
+                <option value="16:00">16:00 WIB (Golden Hour)</option>
+                <option value="19:00" selected>19:00 WIB (Evening Tasting)</option>
+                <option value="21:00">21:00 WIB (Late Cupping)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="admin-form-group">
+              <label for="addGuests">Jumlah Tamu *</label>
+              <select id="addGuests" class="admin-form-select" required>
+                <option value="1 Tamu">1 Tamu (Solo Tasting)</option>
+                <option value="2 Tamu" selected>2 Tamu (Couple)</option>
+                <option value="4 Tamu">4 Tamu (Small Group)</option>
+                <option value="6 Tamu">6 Tamu (Group Gathering)</option>
+                <option value="8+ Tamu">8+ Tamu (Private Event)</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label for="addArea">Pilihan Area *</label>
+              <select id="addArea" class="admin-form-select" required>
+                <option value="Indoor Roastery Bar">Indoor Roastery Bar</option>
+                <option value="Outdoor Braga Terrace">Outdoor Braga Terrace</option>
+                <option value="Espresso Lounge">Espresso Lounge</option>
+                <option value="Mezzanine VIP Tasting Room">Mezzanine VIP Tasting Room</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="admin-form-group">
+            <label for="addNotes">Catatan / Permintaan Khusus</label>
+            <textarea id="addNotes" class="admin-form-textarea" rows="2" placeholder="Contoh: Meja smoking, high chair anak, atau perayaan ulang tahun"></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-admin btn-admin-outline modal-close-btn">Batal</button>
+          <button type="submit" class="btn-admin btn-admin-gold">Simpan & Konfirmasi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

@@ -70,7 +70,7 @@ function initMobileDrawer() {
   }
 }
 
-/* Custom Styled Reservation Notification Modal */
+/* Custom Styled Reservation Notification Modal & Admin Storage Sync */
 function initReservation() {
   const form = document.getElementById('reservationForm');
   const modal = document.getElementById('customResModal');
@@ -83,20 +83,48 @@ function initReservation() {
 
     const name = form.querySelector('input[placeholder*="Nama"], input[placeholder*="Name"]')?.value || 'Tamu Terhormat';
     const email = form.querySelector('input[type="email"]')?.value || 'tamu@terracotta.id';
-    const date = form.querySelector('input[type="date"]')?.value || 'Hari Ini';
-    const timeSelect = form.querySelector('select');
-    const time = timeSelect ? timeSelect.value : '07:00 PM';
+    const phone = form.querySelector('input[type="tel"]')?.value || '-';
+    const date = form.querySelector('input[type="date"]')?.value || new Date().toISOString().split('T')[0];
+    
+    const selects = form.querySelectorAll('select');
+    const time = selects[0] ? selects[0].value : '19:00 WIB';
+    const guests = selects[1] ? selects[1].value : '2 Orang';
+    const area = selects[2] ? selects[2].value : 'Espresso Brew Bar';
+    
     const ref = 'TRC-BDG-' + Math.floor(100000 + Math.random() * 900000);
+
+    // Save to localStorage for Admin Portal
+    try {
+      const STORAGE_KEY = 'terracotta_reservations';
+      const existing = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      const newReservation = {
+        id: ref,
+        name: name,
+        phone: phone,
+        email: email,
+        date: date,
+        time: time,
+        guests: guests,
+        area: area,
+        notes: 'Pemesanan online melalui formulir website.',
+        status: 'pending',
+        createdAt: new Date().toISOString()
+      };
+      existing.unshift(newReservation);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+    } catch (err) {
+      console.warn('Storage sync error:', err);
+    }
 
     const ticketBody = document.getElementById('resTicketDetails');
     if (ticketBody) {
       ticketBody.innerHTML = `
         <div class="ticket-row"><span>Nama Tamu:</span> <strong>${name}</strong></div>
         <div class="ticket-row"><span>Waktu Reservasi:</span> <strong>${date} pukul ${time}</strong></div>
-        <div class="ticket-row"><span>Email Konfirmasi:</span> <strong>${email}</strong></div>
+        <div class="ticket-row"><span>Jumlah Tamu:</span> <strong>${guests} (${area})</strong></div>
+        <div class="ticket-row"><span>Nomor WhatsApp:</span> <strong>${phone}</strong></div>
         <div class="ticket-row"><span>Kode Booking:</span> <strong style="color: var(--accent-gold);">${ref}</strong></div>
-        <div class="ticket-row"><span>Lokasi:</span> <strong>Terracotta Roastery Bandung (Braga)</strong></div>
-        <div class="ticket-row"><span>Status:</span> <strong style="color: #5ad491;">Terkonfirmasi & Siap ✓</strong></div>
+        <div class="ticket-row"><span>Status:</span> <strong style="color: #f59e0b;">Menunggu Konfirmasi Staf Roastery</strong></div>
       `;
     }
 

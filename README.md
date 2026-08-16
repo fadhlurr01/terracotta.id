@@ -11,27 +11,32 @@ A modern, responsive multi-page website for **Terracotta Coffee Roastery & Cafe*
   - `reservation.html` — Sistem pemesanan meja dan generate e-ticket reservasi instan.
   - `blog.html` — Jurnal edukasi kopi & cerita roastery.
   - `contact.html` — Kontak, jam operasional, peta lokasi Braga Bandung, dan formulir pesan.
+  - `admin.html` — Portal admin manajemen reservasi meja dengan KPI stats, validasi status (Terima/Tolak/Selesai), filter, live search, WhatsApp direct contact, dan export CSV.
 - **Interactive UI & Micro-animations**: Dynamic search bar, interactive shopping bag drawer, smooth scroll reveal, and toast notifications.
 
 ## 🚀 Teknologi yang Digunakan
 - **HTML5** (Semantic structure & SEO optimized)
 - **CSS3** (Custom design tokens, Flexbox, CSS Grid, Glassmorphism, Responsive Media Queries)
-- **JavaScript (ES6+)** (Interactive controllers, filter engine, dynamic modal tickets)
+- **JavaScript (ES6+)** (Interactive controllers, filter engine, local storage sync, modal tickets)
 
 ## 📁 Struktur Folder
 ```text
 project-3/
 ├── css/
-│   └── style.css
+│   ├── style.css
+│   └── admin.css
 ├── js/
-│   └── main.js
+│   ├── main.js
+│   └── admin.js
 ├── images/
+│   └── logo.svg
 ├── index.html
 ├── about.html
 ├── menu.html
 ├── reservation.html
 ├── blog.html
 ├── contact.html
+├── admin.html
 └── README.md
 ```
 
