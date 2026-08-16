@@ -13,7 +13,69 @@
 </head>
 <body>
 
-  <div class="admin-layout">
+  <!-- =========================================================================
+       STAFF AUTHENTICATION GATE (Access Barrier for Non-Staff/Guests)
+       ========================================================================= -->
+  <div class="auth-gate-wrapper" id="authGate">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo-wrap">
+          <img src="images/logo.svg" alt="Terracotta Logo" class="auth-logo-img">
+        </div>
+        <span class="auth-badge">🛡️ Area Terbatas Staf</span>
+        <h2 class="auth-title">Portal Manajemen Roastery</h2>
+        <p class="auth-subtitle">Masukkan akun atau PIN staf untuk mengelola reservasi & meja terracotta.id</p>
+      </div>
+
+      <form id="adminLoginForm" class="auth-form">
+        <div class="admin-form-group">
+          <label for="loginUser">Username / ID Staf</label>
+          <div class="auth-input-wrap">
+            <svg viewBox="0 0 24 24"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/></svg>
+            <input type="text" id="loginUser" class="auth-input" placeholder="Masukkan ID / Username" value="admin" required autocomplete="username">
+          </div>
+        </div>
+
+        <div class="admin-form-group">
+          <label for="loginPass">Password / PIN Staf</label>
+          <div class="auth-input-wrap">
+            <svg viewBox="0 0 24 24"><path d="M18,8H17V6A5,5 0 0,0 7,6V8H6A2,2 0 0,0 4,10V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V10A2,2 0 0,0 18,8M12,17A2,2 0 1,1 14,15A2,2 0 0,1 12,17M15.1,8H8.9V6C8.9,4.29 10.29,2.9 12,2.9C13.71,2.9 15.1,4.29 15.1,6V8Z"/></svg>
+            <input type="password" id="loginPass" class="auth-input" placeholder="Sandi atau PIN (1234)" required autocomplete="current-password">
+            <button type="button" class="auth-pwd-toggle" id="pwdToggleBtn" title="Lihat Sandi">
+              <svg id="pwdEyeIcon" viewBox="0 0 24 24"><path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="auth-error-msg" id="authErrorMsg" style="display: none;">
+          <svg viewBox="0 0 24 24"><path d="M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z"/></svg>
+          <span>Kredensial tidak cocok. Coba username 'admin' & sandi 'terracotta' atau PIN '1234'.</span>
+        </div>
+
+        <button type="submit" class="btn-admin btn-admin-gold auth-submit-btn">
+          <span>Masuk ke Dashboard</span>
+          <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24"><path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"/></svg>
+        </button>
+      </form>
+
+      <div class="auth-demo-hint">
+        <span class="hint-tag">💡 Akses Cepat Demo</span>
+        <p>User: <strong>admin</strong> | Sandi: <strong>terracotta</strong> / PIN: <strong>1234</strong></p>
+      </div>
+
+      <div class="auth-footer-nav">
+        <a href="index.html" class="auth-back-link">
+          <svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg>
+          Kembali ke Website Tamu
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       AUTHENTICATED ADMIN DASHBOARD (Hidden until logged in)
+       ========================================================================= -->
+  <div class="admin-layout" id="adminLayout" style="display: none;">
 
     <!-- Left Navigation Sidebar -->
     <aside class="admin-sidebar" id="adminSidebar">
@@ -22,6 +84,14 @@
         <div class="sidebar-brand-text">
           <h2>terracotta<span>.id</span></h2>
           <p>Roastery Management</p>
+        </div>
+      </div>
+
+      <div class="sidebar-user-pill">
+        <div class="user-avatar">AD</div>
+        <div class="user-info">
+          <strong>Admin Roastery</strong>
+          <span class="user-role">Staf Terracotta Braga</span>
         </div>
       </div>
 
@@ -41,9 +111,13 @@
         </a>
       </nav>
 
-      <div class="sidebar-footer">
-        <a href="index.html" class="back-to-site-btn">
-          <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg>
+      <div class="sidebar-footer" style="flex-direction: column; gap: 0.75rem; align-items: stretch;">
+        <button class="btn-admin btn-admin-danger" id="sidebarLogoutBtn" style="justify-content: center; width: 100%;">
+          <svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24"><path d="M16,17V14H9V10H16V7L21,12L16,17M14,2A2,2 0 0,1 16,4V6H14V4H5V20H14V18H16V20A2,2 0 0,1 14,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2H14Z"/></svg>
+          Keluar (Logout)
+        </button>
+        <a href="index.html" class="back-to-site-btn" style="justify-content: center;">
+          <svg style="width: 16px; height: 16px; fill: currentColor;" viewBox="0 0 24 24"><path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/></svg>
           Kembali ke Website
         </a>
       </div>
@@ -72,6 +146,10 @@
           <button class="btn-admin btn-admin-gold" id="openAddWalkInBtn">
             <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24"><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg>
             + Tambah Walk-In
+          </button>
+          <button class="btn-admin btn-admin-danger" id="topbarLogoutBtn" title="Keluar dari Sesi Staf">
+            <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24"><path d="M16,17V14H9V10H16V7L21,12L16,17M14,2A2,2 0 0,1 16,4V6H14V4H5V20H14V18H16V20A2,2 0 0,1 14,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2H14Z"/></svg>
+            Logout
           </button>
         </div>
       </header>

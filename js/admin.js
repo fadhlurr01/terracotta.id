@@ -66,11 +66,94 @@ let currentFilter = 'all';
 let searchQuery = '';
 let selectedDate = '';
 
+const AUTH_STORAGE_KEY = 'terracotta_admin_auth';
+
 document.addEventListener('DOMContentLoaded', () => {
   initStorage();
+  initAuth();
   initEventListeners();
-  renderDashboard();
 });
+
+/* Initialize Auth Guard */
+function initAuth() {
+  const authGate = document.getElementById('authGate');
+  const adminLayout = document.getElementById('adminLayout');
+  const isAuth = sessionStorage.getItem(AUTH_STORAGE_KEY) === 'true' || localStorage.getItem(AUTH_STORAGE_KEY) === 'true';
+
+  if (isAuth) {
+    if (authGate) authGate.style.display = 'none';
+    if (adminLayout) adminLayout.style.display = 'flex';
+    renderDashboard();
+  } else {
+    if (authGate) authGate.style.display = 'flex';
+    if (adminLayout) adminLayout.style.display = 'none';
+    const passInput = document.getElementById('loginPass');
+    if (passInput) passInput.focus();
+  }
+}
+
+/* Perform Staff Login */
+function handleStaffLogin(user, pass) {
+  const validUsers = ['admin', 'staff', 'barista', 'terracotta', 'manager'];
+  const validPasswords = ['terracotta', '1234', 'admin123', 'admin', 'terracotta2026', 'braga'];
+
+  const normalizedUser = (user || '').trim().toLowerCase();
+  const normalizedPass = (pass || '').trim().toLowerCase();
+
+  const isValidUser = validUsers.includes(normalizedUser);
+  const isValidPass = validPasswords.includes(normalizedPass);
+
+  const errorEl = document.getElementById('authErrorMsg');
+  const authCard = document.querySelector('.auth-card');
+
+  if (isValidUser && isValidPass) {
+    if (errorEl) errorEl.style.display = 'none';
+    sessionStorage.setItem(AUTH_STORAGE_KEY, 'true');
+    localStorage.setItem(AUTH_STORAGE_KEY, 'true');
+
+    const authGate = document.getElementById('authGate');
+    const adminLayout = document.getElementById('adminLayout');
+
+    if (authGate) authGate.style.display = 'none';
+    if (adminLayout) {
+      adminLayout.style.display = 'flex';
+      adminLayout.style.animation = 'fadeIn 0.35s ease';
+    }
+
+    renderDashboard();
+    showToast('Selamat Datang, Tim Manajemen & Barista Terracotta! ☕');
+  } else {
+    if (errorEl) errorEl.style.display = 'flex';
+    if (authCard) {
+      authCard.classList.remove('shake');
+      void authCard.offsetWidth; // trigger reflow
+      authCard.classList.add('shake');
+    }
+  }
+}
+
+/* Staff Logout */
+function handleStaffLogout() {
+  if (confirm('Apakah Anda yakin ingin keluar (logout) dari sesi staf admin?')) {
+    sessionStorage.removeItem(AUTH_STORAGE_KEY);
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+    
+    const authGate = document.getElementById('authGate');
+    const adminLayout = document.getElementById('adminLayout');
+    const loginPass = document.getElementById('loginPass');
+    const errorEl = document.getElementById('authErrorMsg');
+
+    if (errorEl) errorEl.style.display = 'none';
+    if (loginPass) loginPass.value = '';
+    if (adminLayout) adminLayout.style.display = 'none';
+    if (authGate) {
+      authGate.style.display = 'flex';
+      authGate.style.animation = 'fadeIn 0.3s ease';
+    }
+
+    showToast('Sesi staf telah ditutup.');
+  }
+}
 
 /* Initialize Local Storage */
 function initStorage() {
@@ -432,6 +515,42 @@ function initEventListeners() {
   const exportBtn = document.getElementById('exportCsvBtn');
   if (exportBtn) {
     exportBtn.addEventListener('click', exportToCSV);
+  }
+
+  // Staff Login Form Submit
+  const loginForm = document.getElementById('adminLoginForm');
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const user = document.getElementById('loginUser')?.value || '';
+      const pass = document.getElementById('loginPass')?.value || '';
+      handleStaffLogin(user, pass);
+    });
+  }
+
+  // Password Visibility Toggle
+  const pwdToggleBtn = document.getElementById('pwdToggleBtn');
+  const loginPass = document.getElementById('loginPass');
+  if (pwdToggleBtn && loginPass) {
+    pwdToggleBtn.addEventListener('click', () => {
+      const isPwd = loginPass.getAttribute('type') === 'password';
+      loginPass.setAttribute('type', isPwd ? 'text' : 'password');
+      pwdToggleBtn.innerHTML = isPwd ? `
+        <svg viewBox="0 0 24 24"><path d="M11.83,9L15,12.16C15,12.11 15,12.05 15,12A3,3 0 0,0 12,9C11.94,9 11.89,9 11.83,9M7.53,9.8L9.08,11.35C9.03,11.56 9,11.77 9,12A3,3 0 0,0 12,15C12.22,15 12.44,14.97 12.65,14.92L14.2,16.47C13.53,16.8 12.79,17 12,17A5,5 0 0,1 7,12C7,11.21 7.2,10.47 7.53,9.8M2,4.27L4.28,6.55L4.73,7C3.08,8.3 1.78,10 1,12C2.73,16.39 7,19.5 12,19.5C13.55,19.5 15.03,19.2 16.38,18.66L16.81,19.09L19.73,22L21,20.73L3.27,3M12,7A5,5 0 0,1 17,12C17,12.64 16.87,13.26 16.64,13.82L19.57,16.75C20.67,15.41 21.5,13.79 22,12C20.27,7.61 16,4.5 12,4.5C10.6,4.5 9.27,4.79 8.05,5.31L10.18,7.44C10.74,7.16 11.35,7 12,7Z"/></svg>
+      ` : `
+        <svg viewBox="0 0 24 24"><path d="M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z"/></svg>
+      `;
+    });
+  }
+
+  // Logout Buttons (Sidebar and Topbar)
+  const sidebarLogoutBtn = document.getElementById('sidebarLogoutBtn');
+  const topbarLogoutBtn = document.getElementById('topbarLogoutBtn');
+  if (sidebarLogoutBtn) {
+    sidebarLogoutBtn.addEventListener('click', handleStaffLogout);
+  }
+  if (topbarLogoutBtn) {
+    topbarLogoutBtn.addEventListener('click', handleStaffLogout);
   }
 }
 

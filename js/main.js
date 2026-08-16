@@ -170,10 +170,11 @@ function initMenuFilters() {
   }
 }
 
-/* Navbar Search & Cart Action Handlers */
+/* Navbar Search, Cart, & Admin Action Handlers */
 function initSearchAndCart() {
   const searchBtn = document.getElementById('navSearchBtn');
   const cartBtn = document.getElementById('navCartBtn');
+  const adminBtn = document.getElementById('navAdminBtn');
 
   if (searchBtn) {
     searchBtn.addEventListener('click', () => {
@@ -184,6 +185,12 @@ function initSearchAndCart() {
   if (cartBtn) {
     cartBtn.addEventListener('click', () => {
       window.location.href = 'menu.html';
+    });
+  }
+
+  if (adminBtn) {
+    adminBtn.addEventListener('click', () => {
+      window.location.href = 'admin.html';
     });
   }
 }

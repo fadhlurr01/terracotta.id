@@ -11,7 +11,12 @@ A modern, responsive multi-page website for **Terracotta Coffee Roastery & Cafe*
   - `reservation.html` — Sistem pemesanan meja dan generate e-ticket reservasi instan.
   - `blog.html` — Jurnal edukasi kopi & cerita roastery.
   - `contact.html` — Kontak, jam operasional, peta lokasi Braga Bandung, dan formulir pesan.
-  - `admin.html` — Portal admin manajemen reservasi meja dengan KPI stats, validasi status (Terima/Tolak/Selesai), filter, live search, WhatsApp direct contact, dan export CSV.
+  - `admin.html` — Portal admin manajemen reservasi meja dengan Staff Authentication Gate (pembatas akses tamu & staf), KPI stats, validasi status (Terima/Tolak/Selesai), filter, live search, WhatsApp direct contact, dan export CSV.
+- **Staff Access Barrier & Authentication**:
+  - Tombol Ikon Khusus Staf (`🛡️ Portal Staf`) di navbar & menu drawer seluruh halaman.
+  - Auth Guard di `admin.html`: Tamu tanpa login tidak dapat melihat data reservasi.
+  - Akun Demo Staf: Username: `admin` | Password: `terracotta` (atau PIN: `1234`).
+  - Fitur Logout yang aman dengan penghapusan sesi.
 - **Interactive UI & Micro-animations**: Dynamic search bar, interactive shopping bag drawer, smooth scroll reveal, and toast notifications.
 
 ## 🚀 Teknologi yang Digunakan
